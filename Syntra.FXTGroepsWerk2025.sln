@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.DataLayer", "Syntra.FXTGroepsWerk2025.DataLayer\Syntra.FXTGroepsWerk2025.DataLayer.csproj", "{43A0EC4F-EA92-4761-AE21-082E94D72DB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Logic", "Syntra.FXTGroepsWerk2025.Logic\Syntra.FXTGroepsWerk2025.Logic.csproj", "{E7F6A1AF-1CF0-4278-82AE-1178BD0C4B69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Objects", "Syntra.FXTGroepsWerk2025.Objects\Syntra.FXTGroepsWerk2025.Objects.csproj", "{8AC19D51-7A74-4A10-BC12-24F43E965946}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43A0EC4F-EA92-4761-AE21-082E94D72DB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43A0EC4F-EA92-4761-AE21-082E94D72DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43A0EC4F-EA92-4761-AE21-082E94D72DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43A0EC4F-EA92-4761-AE21-082E94D72DB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F6A1AF-1CF0-4278-82AE-1178BD0C4B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F6A1AF-1CF0-4278-82AE-1178BD0C4B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F6A1AF-1CF0-4278-82AE-1178BD0C4B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F6A1AF-1CF0-4278-82AE-1178BD0C4B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AC19D51-7A74-4A10-BC12-24F43E965946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC19D51-7A74-4A10-BC12-24F43E965946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC19D51-7A74-4A10-BC12-24F43E965946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC19D51-7A74-4A10-BC12-24F43E965946}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
