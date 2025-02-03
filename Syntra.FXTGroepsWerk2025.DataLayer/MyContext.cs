@@ -33,7 +33,7 @@ namespace OWN.GroupProject2.DataLayer
                 .HasOne(m => m.Director)
                 // Defining that a Director can have many Movies
                 .WithMany(d => d.Movies)
-                // Setting the foreign key for the relationship on the Movie entity
+                // Setting the foreign key for the relationship on the Movie entitys
                 .HasForeignKey(m => m.Director);
         }
 
