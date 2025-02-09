@@ -38,5 +38,20 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
             //return the value
             return totalMinutes;
         }
+
+        //method to calculate the total amount of movies that have been watched
+        public long TotalMoviesWatched(List<Movie> movieList)
+        {
+            //Check for null
+            if (movieList == null) throw new ArgumentNullException(nameof(movieList));
+
+            //check the total amount of movies that have been watched
+            long totalMovies = movieList
+                .Where(m => m.IsWatched == true)
+                .Count();
+
+            //return the value
+            return totalMovies;
+        }
     }
 }

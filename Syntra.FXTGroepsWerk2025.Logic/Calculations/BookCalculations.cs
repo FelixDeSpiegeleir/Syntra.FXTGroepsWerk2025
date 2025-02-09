@@ -38,5 +38,20 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
             //return the value
             return averagePages;
         }
+
+        //method to calculate the total amount of books that have been read
+        public long TotalBooksRead(List<Book> booksList)
+        {
+            //Check for null
+            if (booksList == null) throw new ArgumentNullException(nameof(booksList));
+
+            //Count all the books in the list that have been read
+            long totalBooks = booksList
+                .Where(p => p.IsRead == true)
+                .Count();
+
+            //return the value
+            return totalBooks;
+        }
     }
 }
