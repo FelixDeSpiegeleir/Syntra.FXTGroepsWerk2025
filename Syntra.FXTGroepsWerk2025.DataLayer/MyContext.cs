@@ -1,51 +1,60 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OWN.GroupProject2.Objects;
-using System.Collections.Generic;
 
 namespace OWN.GroupProject2.DataLayer
 {
     public class MyContext : DbContext
     {
+        public DbSet<WatchList> WatchLists { get; set; }
+        public DbSet<WatchListItem> WatchListItems { get; set; }
         public DbSet<Book> Books { get; set; }
-
         public DbSet<Movie> Movies { get; set; }
-
         public DbSet<Director> Directors { get; set; }
-
         public DbSet<Author> Authors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); // Calls the base method to ensure any default configurations are applied.
 
-            // Configuring the relationship between Book and Author
+            base.OnModelCreating(modelBuilder);
+
+            // 🏛 Table-Per-Hierarchy (TPH) Inheritance Strategy for WatchListItem
+            // This means that `Book` and `Movie` will share a single database table
+            // but will be distinguished by a discriminator column "ItemType".
+            modelBuilder.Entity<WatchListItem>()
+                .HasDiscriminator<string>("ItemType") // Creates a column named "ItemType" to distinguish entities
+                .HasValue<Book>("Book")  // Records with "ItemType" = "Book" are mapped to the Book class
+                .HasValue<Movie>("Movie"); // Records with "ItemType" = "Movie" are mapped to the Movie class
+
+            // 📚 Configuring the One-to-Many Relationship Between Book and Author
             modelBuilder.Entity<Book>()
-                // Defining that a Book has one Author
-                .HasOne(b => b.Author)
-                // Defining that an Author can have many Books
-                .WithMany(a => a.Books)
-                // Setting the foreign key for the relationship on the Book entity
-                .HasForeignKey(b => b.Author);
+                .HasOne(b => b.Author)  // A book has one author
+                .WithMany(a => a.Books)  // An author can have many books
+                .HasForeignKey("AuthorId"); // Foreign key in Book table referencing Author's primary key
 
-            // Configuring the relationship between Movie and Director
+            // 🎬 Configuring the One-to-Many Relationship Between Movie and Director
             modelBuilder.Entity<Movie>()
-                // Defining that a Movie has one Director
-                .HasOne(m => m.Director)
-                // Defining that a Director can have many Movies
-                .WithMany(d => d.Movies)
-                // Setting the foreign key for the relationship on the Movie entity
-                .HasForeignKey(m => m.Director);
+                .HasOne(m => m.Director)  // A movie has one director
+                .WithMany(d => d.Movies)  // A director can have many movies
+                .HasForeignKey("DirectorId"); // Foreign key in Movie table referencing Director's primary key
         }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // extra paths in the works...
             base.OnConfiguring(optionsBuilder);
 
             optionsBuilder
                 .UseLazyLoadingProxies()
-                .UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=MoviesAndBooksDB;Integrated Security=True;Encrypt=False;");
+                //Xander's connection string
+                .UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False;");
+
+            ////Felix's connection string
+            //.UseSqlServer(@";");
+
+            ////Timothy's connection string
+            //.UseSqlServer(@";");
+
+
         }
     }
 }

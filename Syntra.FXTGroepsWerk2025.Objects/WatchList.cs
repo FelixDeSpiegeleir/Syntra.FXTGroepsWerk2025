@@ -2,41 +2,32 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OWN.GroupProject2.Objects
 {
     public class WatchList
     {
-        public enum WatchListType
-        {
-            Movie,
-            Book
-        }
-
         [Key]
         public int Id { get; set; }
 
         [Required]
         public string Name { get; set; } // Name of the list
 
-        public WatchListType Type { get; set; } 
-
-        public bool IsComplete { get; set; }
-
-        public int PagesOrDuration { get; set; }
-
         public DateTime CreatedDate { get; set; } = DateTime.Now; // Default to current time
 
-        public List<Movie> MoviesToWatch { get; set; } = new List<Movie>(); //  ( = new List<Movie>() makes it so its name is unique)
+        public List<WatchListItem> Items { get; set; } = new List<WatchListItem>();
 
-        public List<Book> BooksToRead { get; set; } = new List<Book>();
+        public int TotalCompleted => Items.Count(item => item.IsCompleted); // Completed items count
 
-        public List<Movie> CompletedMovies { get; set; } = new List<Movie>();
+        public int TotalPending => Items.Count(item => !item.IsCompleted); // Pending items count
 
-        public List<Book> CompletedBooks { get; set; } = new List<Book>();
+        public bool IsComplete => Items.All(item => item.IsCompleted); // True if all are completed
+    }
 
-        public int TotalItems => (CompletedMovies?.Count ?? 0) + (CompletedBooks?.Count ?? 0); // Total items completed
+    public abstract class WatchListItem
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace OWN.GroupProject2.Objects
         [Key]
         public int Id { get; private set; }
         public string Name { get; set; }
-        public List<Book> Books { get; set; } 
+        public List<Book> Books { get; set; }
     }
 }
