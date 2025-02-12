@@ -1,8 +1,47 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "FXT -- Wishlist";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@* main login form used on home page with username and password
+//TODO
+*user able to make new aacount by clicking create new
+*user can log in with chosen name and password
+*password verivication
+*user verivication
+*disable login bnt if fields not filled in
+
+ *@
+
+@*  temp tyle before adding style folder *@
+<style>
+    /* Ensure the parent container takes up full viewport height */
+    .container-sm {
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        height: 100vh; /* Full height of the viewport */
+    }
+</style>
+
+<form>
+    <div class="container-sm" name="LoginForm">
+        <div class="card border-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">Please Log in to manage your Wishlist</div>
+            <div class="card-body">
+                <h5 class="card-title"><label for="user">Username</label></h5>
+                <p class="card-text"><input type="text" name="username" id="user" /></p>
+
+                <h5 class="card-title"><label for="pass">Password</label></h5>
+                <p class="card-text"><input type="password" name="password" id="pass" /></p>
+
+                <p class="card-text">
+                    <button type="submit" name="loginbtn" id="loginbtn">LOG IN</button>
+                </p>
+
+                <p class="card-text">
+                    <small><a asp-action="Create">Create New</a></small>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>
