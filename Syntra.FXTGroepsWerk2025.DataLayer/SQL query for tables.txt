@@ -1,63 +1,59 @@
-﻿Database called MoviesAndBooksDB
+﻿-- Drop tables if they exist (for clean re-creation)
+DROP TABLE IF EXISTS WatchListItems;
+DROP TABLE IF EXISTS WatchLists;
+DROP TABLE IF EXISTS Books;
+DROP TABLE IF EXISTS Movies;
+DROP TABLE IF EXISTS Directors;
+DROP TABLE IF EXISTS Authors;
 
-query :
-
--- Create the Author table
-CREATE TABLE Author (
-    Id INT PRIMARY KEY IDENTITY(1,1), -- Auto-incrementing primary key
-    Name NVARCHAR(255) NOT NULL       -- Name of the author
+-- 📌 Table for Authors
+CREATE TABLE Authors (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL
 );
 
--- Create the Director table
-CREATE TABLE Director (
-    Id INT PRIMARY KEY IDENTITY(1,1), -- Auto-incrementing primary key
-    Name NVARCHAR(255) NOT NULL       -- Name of the director
+-- 📌 Table for Directors
+CREATE TABLE Directors (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL
 );
 
--- Create the Book table
-CREATE TABLE Book (
-    Id INT PRIMARY KEY IDENTITY(1,1), -- Auto-incrementing primary key
-    Title NVARCHAR(255) NOT NULL,     -- Title of the book
-    Pages INT NOT NULL,               -- Number of pages
-    AuthorId INT NOT NULL,            -- Foreign key to Author table
-    IsRead BIT NOT NULL,              -- Whether the book has been read
-    CONSTRAINT FK_Book_Author FOREIGN KEY (AuthorId) REFERENCES Author(Id) -- Foreign key constraint
+-- 📌 Table for WatchLists (Users create watchlists)
+CREATE TABLE WatchLists (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL,
+    CreatedDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 
--- Create the Movie table
-CREATE TABLE Movie (
-    Id INT PRIMARY KEY IDENTITY(1,1), -- Auto-incrementing primary key
-    Title NVARCHAR(255) NOT NULL,     -- Title of the movie
-    Duration INT NOT NULL,            -- Duration in minutes
-    DirectorId INT NOT NULL,          -- Foreign key to Director table
-    IsWatched BIT NOT NULL,           -- Whether the movie has been watched
-    CONSTRAINT FK_Movie_Director FOREIGN KEY (DirectorId) REFERENCES Director(Id) -- Foreign key constraint
+-- 📌 Table for WatchListItems (TPH Inheritance: Stores both Books & Movies)
+CREATE TABLE WatchListItems (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    WatchListId INT NOT NULL,   -- Foreign key to WatchLists
+    Title NVARCHAR(255) NOT NULL,
+    IsCompleted BIT NOT NULL DEFAULT 0,
+    ItemType NVARCHAR(50) NOT NULL, -- "Book" or "Movie"
+    PagesOrDuration INT NULL, -- Pages (books) or Duration (movies)
+    AuthorId INT NULL, -- Only used for Books
+    DirectorId INT NULL, -- Only used for Movies
+
+    CONSTRAINT FK_WatchListItems_WatchList FOREIGN KEY (WatchListId) REFERENCES WatchLists(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_WatchListItems_Author FOREIGN KEY (AuthorId) REFERENCES Authors(Id) ON DELETE SET NULL,
+    CONSTRAINT FK_WatchListItems_Director FOREIGN KEY (DirectorId) REFERENCES Directors(Id) ON DELETE SET NULL
 );
 
--- Create the WatchList table
-CREATE TABLE WatchList (
-    Id INT PRIMARY KEY IDENTITY(1,1), -- Auto-incrementing primary key
-    Name NVARCHAR(255) NOT NULL,      -- Name of the watchlist
-    Type NVARCHAR(50) NOT NULL,       -- Type of list (Movie, Book, etc.)
-    IsComplete BIT NOT NULL,          -- Whether the list is complete
-    PagesOrDuration INT NOT NULL,     -- Total pages (books) or duration (movies)
-    CreatedDate DATETIME NOT NULL DEFAULT GETDATE() -- When the list was created
-);
+-- 🛑 Separate the batch before creating views
+GO
 
--- Create the WatchList_Movies (junction table)
-CREATE TABLE WatchList_Movies (
-    WatchListId INT NOT NULL,         -- Foreign key to WatchList table
-    MovieId INT NOT NULL,             -- Foreign key to Movie table
-    CONSTRAINT FK_WatchList_Movies_WatchList FOREIGN KEY (WatchListId) REFERENCES WatchList(Id),
-    CONSTRAINT FK_WatchList_Movies_Movie FOREIGN KEY (MovieId) REFERENCES Movie(Id),
-    PRIMARY KEY (WatchListId, MovieId) -- Composite primary key
-);
+-- 📌 View for Books (Filters only books)
+CREATE VIEW Books AS
+SELECT Id, WatchListId, Title, PagesOrDuration AS Pages, AuthorId, IsCompleted
+FROM WatchListItems
+WHERE ItemType = 'Book';
 
--- Create the WatchList_Books (junction table)
-CREATE TABLE WatchList_Books (
-    WatchListId INT NOT NULL,         -- Foreign key to WatchList table
-    BookId INT NOT NULL,              -- Foreign key to Book table
-    CONSTRAINT FK_WatchList_Books_WatchList FOREIGN KEY (WatchListId) REFERENCES WatchList(Id),
-    CONSTRAINT FK_WatchList_Books_Book FOREIGN KEY (BookId) REFERENCES Book(Id),
-    PRIMARY KEY (WatchListId, BookId) -- Composite primary key
-);
+GO  -- Separate batch for next view
+
+-- 📌 View for Movies (Filters only movies)
+CREATE VIEW Movies AS
+SELECT Id, WatchListId, Title, PagesOrDuration AS Duration, DirectorId, IsCompleted
+FROM WatchListItems
+WHERE ItemType = 'Movie';
