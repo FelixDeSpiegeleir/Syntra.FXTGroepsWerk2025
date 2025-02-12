@@ -25,17 +25,17 @@ namespace OWN.GroupProject2.DataLayer
                 .HasValue<Book>("Book")  // Records with "ItemType" = "Book" are mapped to the Book class
                 .HasValue<Movie>("Movie"); // Records with "ItemType" = "Movie" are mapped to the Movie class
 
-            // 📚 Configuring the One-to-Many Relationship Between Book and Author
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Author)  // A book has one author
-                .WithMany(a => a.Books)  // An author can have many books
-                .HasForeignKey("AuthorId"); // Foreign key in Book table referencing Author's primary key
+            //// 📚 Configuring the One-to-Many Relationship Between Book and Author
+            //modelBuilder.Entity<Book>()
+            //    .HasOne(b => b.Author)  // A book has one author
+            //    .WithMany(a => a.Books)  // An author can have many books
+            //    .HasForeignKey("AuthorId"); // Foreign key in Book table referencing Author's primary key
 
-            // 🎬 Configuring the One-to-Many Relationship Between Movie and Director
-            modelBuilder.Entity<Movie>()
-                .HasOne(m => m.Director)  // A movie has one director
-                .WithMany(d => d.Movies)  // A director can have many movies
-                .HasForeignKey("DirectorId"); // Foreign key in Movie table referencing Director's primary key
+            //// 🎬 Configuring the One-to-Many Relationship Between Movie and Director
+            //modelBuilder.Entity<Movie>()
+            //    .HasOne(m => m.Director)  // A movie has one director
+            //    .WithMany(d => d.Movies)  // A director can have many movies
+            //    .HasForeignKey("DirectorId"); // Foreign key in Movie table referencing Director's primary key
         }
 
 
