@@ -45,14 +45,14 @@ namespace OWN.GroupProject2.DataLayer
 
             optionsBuilder
                 .UseLazyLoadingProxies()
-                //Xander's connection string
-                .UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False;");
+            ////Xander's connection string
+            //.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False;");
 
             ////Felix's connection string
             //.UseSqlServer(@";");
 
-            ////Timothy's connection string
-            //.UseSqlServer(@";");
+            //Timothy's connection string
+            .UseSqlServer(@"Data Source =.\LESCSHARP; Initial Catalog = FXTWishlist; Integrated Security = True; Encrypt = False");
 
 
         }
