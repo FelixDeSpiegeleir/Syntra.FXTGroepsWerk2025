@@ -1,6 +1,69 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<OWN.GroupProject2.Objects.Movie>
+
 @{
+	ViewData["Title"] = "Movies";
 }
-<h1>LOG IN TO SEE YOUR MOVIE WISHLIST</h1>
+
+@*  -MAIN MOVIE LIST
+
+	includes:
+	*create new movie action link
+	*main movie table with respective btns
+		-edit
+		-delete
+	*table heads
+	*loop to add items to list
+
+	TODO:
+	*intigtate SQL table get
+	*add new movie functinality
+	*edit view btn functinality
+	*delete btn functinality
+
+	low prio:
+	*layout editing *@
+
+<h1>MOVIE LIST</h1>
+
+<p>
+	<a asp-action="Create">ADD NEW MOVIE</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.IsCompleted)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Duration)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.IsCompleted)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Duration)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+				</td>
+				<td>
+					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
