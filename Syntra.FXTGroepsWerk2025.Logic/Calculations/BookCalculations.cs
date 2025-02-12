@@ -17,7 +17,7 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
 
             //Sum up all the 'Pages' properties of all the books in the list that have been read
             long totalPages = booksList
-                .Where(p => p.IsRead == true)
+                .Where(p => p.IsCompleted == true)
                 .Sum(p => p.Pages);
 
             //return the value
@@ -32,7 +32,7 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
 
             //Get all the books that have been read and check the average of the pagecount
             double averagePages = booksList
-                .Where(p => p.IsRead == true)
+                .Where(p => p.IsCompleted == true)
                 .Average(p => p.Pages);
 
             //return the value
@@ -47,7 +47,7 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
 
             //Count all the books in the list that have been read
             long totalBooks = booksList
-                .Where(p => p.IsRead == true)
+                .Where(p => p.IsCompleted == true)
                 .Count();
 
             //return the value

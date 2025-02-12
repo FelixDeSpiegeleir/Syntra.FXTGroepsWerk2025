@@ -17,7 +17,7 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
 
             //check the total amount of minutes of movies that have been watched
             long totalMinutes = movieList
-                .Where(m => m.IsWatched == true)
+                .Where(m => m.IsCompleted == true)
                 .Sum(m => m.Duration);
 
             //return the value
@@ -32,7 +32,7 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
 
             //check the average amount of minutes of movies that have been watched
             double totalMinutes = movieList
-                .Where(m => m.IsWatched == true)
+                .Where(m => m.IsCompleted == true)
                 .Average(m => m.Duration);
 
             //return the value
@@ -47,7 +47,7 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
 
             //check the total amount of movies that have been watched
             long totalMovies = movieList
-                .Where(m => m.IsWatched == true)
+                .Where(m => m.IsCompleted == true)
                 .Count();
 
             //return the value
