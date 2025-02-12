@@ -7,5 +7,6 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Movies
         int AddMovie(Movie movie);
         int RemoveMovie(Movie movie);
         int UpdateMovie(Movie movie);
+        public List<Movie> GetMovies();
     }
 }

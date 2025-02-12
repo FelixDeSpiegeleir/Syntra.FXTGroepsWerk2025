@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Syntra.FXTGroepsWerk2025.Logic.Movies;
 using Syntra.FXTGroepsWerk2025.Presantation.Models;
 using System.Diagnostics;
 
@@ -36,9 +37,10 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
         /// Method to view movies wishlist
         /// </summary>
         /// <returns>returns view : "Movie"</returns>
-        public IActionResult Movies()
+        public IActionResult Movies([FromServices] IMovieService service)
         {
-            return View();
+            var list = service.GetMovies();
+            return View(list);
         }
 
 

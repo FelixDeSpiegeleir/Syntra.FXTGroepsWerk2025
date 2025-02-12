@@ -81,5 +81,13 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Movies
             //return the id of the movie in case it needs to be used directly
             return movie.Id;
         }
+
+        public List<Movie> GetMovies()
+        {
+            var list = new List<Movie>();
+
+           
+            return list;// temp
+        }
     }
 }

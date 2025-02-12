@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Syntra.FXTGroepsWerk2025.Logic\Syntra.FXTGroepsWerk2025.Logic.csproj" />
     <ProjectReference Include="..\Syntra.FXTGroepsWerk2025.Objects\Syntra.FXTGroepsWerk2025.Objects.csproj" />
   </ItemGroup>
 
