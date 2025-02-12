@@ -1,18 +1,41 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
+    @*
+    -MAIN LAYOUT SHEET FOR FXT WISHLIST    
+
+    -HEAD-
+
+    includes:
+    *charset data
+    *vieuwport settings
+    *title
+    *stylescheet links
+
+    *@
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Syntra.FXTGroepsWerk2025.Presantation</title>
+    <title>@ViewData["Title"] - FXT - Wishlist</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Syntra.FXTGroepsWerk2025.Presantation.styles.css" asp-append-version="true" />
 </head>
+
+@*-BODY
+
+includes:
+*main nav bar with diverent tabs to navigate the app
+* MAIN RENDER BODY CONTAINER <-- what user mainly sees
+*footer
+*@
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Syntra.FXTGroepsWerk2025.Presantation</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FXT</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,24 +46,43 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Books">Books</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Movies">Movies</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+						</li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+    @*main render*@
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    @* footer of app *@
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - Syntra.FXTGroepsWerk2025.Presantation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    @* -SCRIPTS-
+    inculdes:
+    *Bootstrap 
+    *java
+    *tag helper
+    *... *@
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
