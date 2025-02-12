@@ -1,0 +1,11 @@
+- Properties
+	- Year
+	- Genre
+
+- In UI: dropdown menu voor selecteren van:
+	- Year
+	- Genre
+		- Lijst met genres
+		- Op einde: 'other' om zelf een genre toe te voegen
+
+		- Table maken voor genres in database
