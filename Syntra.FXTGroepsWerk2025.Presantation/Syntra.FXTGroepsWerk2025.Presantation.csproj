@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Syntra.FXTGroepsWerk2025.Objects\Syntra.FXTGroepsWerk2025.Objects.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Movie\" />
+    <Folder Include="Views\Watchlist\" />
+    <Folder Include="Views\User\" />
+  </ItemGroup>
+
 </Project>
