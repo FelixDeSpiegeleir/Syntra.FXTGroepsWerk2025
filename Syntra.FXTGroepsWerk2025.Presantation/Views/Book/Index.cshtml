@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OWN.GroupProject2.Objects.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var dummyBooks = new List<OWN.GroupProject2.Objects.Book>
+    {
+        new OWN.GroupProject2.Objects.Book { Pages = 100, Title = "Book 1", IsCompleted = true },
+        new OWN.GroupProject2.Objects.Book { Pages = 200, Title = "Book 2", IsCompleted = false },
+        new OWN.GroupProject2.Objects.Book { Pages = 300, Title = "Book 3", IsCompleted = true }
+    };
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pages)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCompleted)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in dummyBooks) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pages)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCompleted)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

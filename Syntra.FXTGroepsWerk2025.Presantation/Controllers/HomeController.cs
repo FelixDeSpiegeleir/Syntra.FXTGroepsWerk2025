@@ -37,10 +37,10 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
         /// Method to view movies wishlist
         /// </summary>
         /// <returns>returns view : "Movie"</returns>
-        public IActionResult Movies([FromServices] IMovieService service)
+        public IActionResult Movies()
         {
-            var list = service.GetMovies();
-            return View(list);
+            //var list = service.GetMovies();
+            return View();
         }
 
 
