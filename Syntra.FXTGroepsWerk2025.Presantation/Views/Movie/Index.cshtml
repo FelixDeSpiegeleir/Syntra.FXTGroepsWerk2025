@@ -1,0 +1,85 @@
+﻿@model IEnumerable<OWN.GroupProject2.Objects.Movie>
+
+@{
+    // DUMMY LIST FOR TESTING
+    ViewData["Title"] = "Movies List";
+    var random = new Random();
+    var movies = new List<OWN.GroupProject2.Objects.Movie>
+    {
+        new OWN.GroupProject2.Objects.Movie { Id = 1, Title = "Movie 1", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 1" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 2, Title = "Movie 2", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 2" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 3, Title = "Movie 3", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 3" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 4, Title = "Movie 4", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 4" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 5, Title = "Movie 5", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 5" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 6, Title = "Movie 6", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 6" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 7, Title = "Movie 7", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 7" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 8, Title = "Movie 8", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 8" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 9, Title = "Movie 9", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 9" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 10, Title = "Movie 10", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 10" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 11, Title = "Movie 11", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 11" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 12, Title = "Movie 12", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 12" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 13, Title = "Movie 13", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 13" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 14, Title = "Movie 14", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 14" } },
+        new OWN.GroupProject2.Objects.Movie { Id = 15, Title = "Movie 15", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 15" } }
+    };
+
+
+    // SORT FUNCTION (NYI)
+    string sortOrder = ViewData["SortOrder"] as string ?? "asc";
+    string sortColumn = ViewData["SortColumn"] as string ?? "Title";
+
+    movies = sortOrder == "asc" ? movies.OrderBy(m => m.GetType().GetProperty(sortColumn).GetValue(m)).ToList() : movies.OrderByDescending(m => m.GetType().GetProperty(sortColumn).GetValue(m)).ToList();
+}
+@*main movies view list 
+-contains all movies known to the database
+-able to sort on each property by clicking table head
+-clickable butons to:
+ * add to Wishlist
+ * View details
+- table rows for (in order):
+ * Title
+ * Durationd
+ * Year of release
+ * director
+ * Actions (btns)*@
+
+<h2>📽ALL MOVIES📽</h2>
+<p>
+
+    <a asp-action="Create" class="btn btn-primary">Add New Movie</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortColumn="Title" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Title</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortColumn="Duration" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Duration (min)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortColumn="Year" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Year</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortColumn="Director" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Director</a>
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in movies)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Duration</td>
+                <td>@movie.Year</td>
+                <td>@(movie.Director != null ? movie.Director.Name : "Unknown")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
