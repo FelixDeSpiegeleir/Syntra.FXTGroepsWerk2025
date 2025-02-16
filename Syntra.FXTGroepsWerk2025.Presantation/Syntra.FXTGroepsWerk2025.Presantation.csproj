@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Movie\" />
+    <Folder Include="Views\Book\" />
     <Folder Include="Views\Watchlist\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
