@@ -96,3 +96,4 @@ namespace OWN.GroupProject2.Objects
         /// </summary>
         public string? CustomGenre { get; set; }
     }
+}
