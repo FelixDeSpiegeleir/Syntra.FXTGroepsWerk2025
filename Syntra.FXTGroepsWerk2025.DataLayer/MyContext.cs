@@ -3,18 +3,47 @@ using OWN.GroupProject2.Objects;
 
 namespace OWN.GroupProject2.DataLayer
 {
+    /// <summary>
+    /// Represents the database context for the application, managing the entity sets and their configurations.
+    /// </summary>
     public class MyContext : DbContext
     {
+        /// <summary>
+        /// Gets or sets the DbSet for WatchLists.
+        /// </summary>
         public DbSet<WatchList> WatchLists { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DbSet for WatchListItems.
+        /// </summary>
         public DbSet<WatchListItem> WatchListItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DbSet for Books.
+        /// </summary>
         public DbSet<Book> Books { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DbSet for Movies.
+        /// </summary>
         public DbSet<Movie> Movies { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DbSet for Directors.
+        /// </summary>
         public DbSet<Director> Directors { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DbSet for Authors.
+        /// </summary>
         public DbSet<Author> Authors { get; set; }
 
+        /// <summary>
+        /// Configures the model by overriding this method to set up relationships, inheritance, etc.
+        /// </summary>
+        /// <param name="modelBuilder">The builder used to construct the model for the context.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
 
             // 🏛 Table-Per-Hierarchy (TPH) Inheritance Strategy for WatchListItem
@@ -38,7 +67,10 @@ namespace OWN.GroupProject2.DataLayer
             //    .HasForeignKey("DirectorId"); // Foreign key in Movie table referencing Director's primary key
         }
 
-
+        /// <summary>
+        /// Configures the database connection and other options for the context.
+        /// </summary>
+        /// <param name="optionsBuilder">The builder used to configure the context options.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -53,8 +85,6 @@ namespace OWN.GroupProject2.DataLayer
 
             //Timothy's connection string
             .UseSqlServer(@"Data Source =.\LESCSHARP; Initial Catalog = FXTWishlist; Integrated Security = True; Encrypt = False");
-            // device name \\TIMOTHY
-
         }
     }
 }
