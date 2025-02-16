@@ -53,7 +53,7 @@ namespace OWN.GroupProject2.DataLayer
 
             //Timothy's connection string
             .UseSqlServer(@"Data Source =.\LESCSHARP; Initial Catalog = FXTWishlist; Integrated Security = True; Encrypt = False");
-
+            // device name \\TIMOTHY
 
         }
     }
