@@ -1,59 +1,71 @@
-﻿-- Drop tables if they exist (for clean re-creation)
-DROP TABLE IF EXISTS WatchListItems;
-DROP TABLE IF EXISTS WatchLists;
-DROP TABLE IF EXISTS Books;
-DROP TABLE IF EXISTS Movies;
-DROP TABLE IF EXISTS Directors;
-DROP TABLE IF EXISTS Authors;
-
--- 📌 Table for Authors
-CREATE TABLE Authors (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    Name NVARCHAR(255) NOT NULL
-);
-
--- 📌 Table for Directors
-CREATE TABLE Directors (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    Name NVARCHAR(255) NOT NULL
-);
-
--- 📌 Table for WatchLists (Users create watchlists)
-CREATE TABLE WatchLists (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    Name NVARCHAR(255) NOT NULL,
-    CreatedDate DATETIME NOT NULL DEFAULT GETDATE()
-);
-
--- 📌 Table for WatchListItems (TPH Inheritance: Stores both Books & Movies)
-CREATE TABLE WatchListItems (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    WatchListId INT NOT NULL,   -- Foreign key to WatchLists
-    Title NVARCHAR(255) NOT NULL,
-    IsCompleted BIT NOT NULL DEFAULT 0,
-    ItemType NVARCHAR(50) NOT NULL, -- "Book" or "Movie"
-    PagesOrDuration INT NULL, -- Pages (books) or Duration (movies)
-    AuthorId INT NULL, -- Only used for Books
-    DirectorId INT NULL, -- Only used for Movies
-
-    CONSTRAINT FK_WatchListItems_WatchList FOREIGN KEY (WatchListId) REFERENCES WatchLists(Id) ON DELETE CASCADE,
-    CONSTRAINT FK_WatchListItems_Author FOREIGN KEY (AuthorId) REFERENCES Authors(Id) ON DELETE SET NULL,
-    CONSTRAINT FK_WatchListItems_Director FOREIGN KEY (DirectorId) REFERENCES Directors(Id) ON DELETE SET NULL
-);
-
--- 🛑 Separate the batch before creating views
+﻿-- ✅ Ensure database exists before proceeding
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'FXTWishlist')
+    CREATE DATABASE FXTWishlist;
 GO
 
--- 📌 View for Books (Filters only books)
-CREATE VIEW Books AS
-SELECT Id, WatchListId, Title, PagesOrDuration AS Pages, AuthorId, IsCompleted
+USE FXTWishlist;
+
+-- ✅ Create tables if they do not exist
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Authors')
+BEGIN
+    CREATE TABLE Authors (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Name NVARCHAR(255) NOT NULL
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Directors')
+BEGIN
+    CREATE TABLE Directors (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Name NVARCHAR(255) NOT NULL
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'WatchLists')
+BEGIN
+    CREATE TABLE WatchLists (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Name NVARCHAR(255) NOT NULL,
+        CreatedDate DATETIME NOT NULL DEFAULT GETDATE()
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'WatchListItems')
+BEGIN
+    CREATE TABLE WatchListItems (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        WatchListId INT NOT NULL,
+        Title NVARCHAR(255) NOT NULL,
+        IsCompleted BIT NOT NULL DEFAULT 0,
+        ItemType NVARCHAR(50) NOT NULL,
+        PagesOrDuration INT NULL,
+        AuthorId INT NULL,
+        DirectorId INT NULL,
+        Genre NVARCHAR(50) NOT NULL DEFAULT 'Other',
+        Year INT NULL,
+        CONSTRAINT FK_WatchListItems_WatchList FOREIGN KEY (WatchListId) REFERENCES WatchLists(Id) ON DELETE CASCADE,
+        CONSTRAINT FK_WatchListItems_Author FOREIGN KEY (AuthorId) REFERENCES Authors(Id) ON DELETE SET NULL,
+        CONSTRAINT FK_WatchListItems_Director FOREIGN KEY (DirectorId) REFERENCES Directors(Id) ON DELETE SET NULL
+    );
+END
+
+-- ✅ Ensure columns exist for Genre and Year
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Genre')
+    ALTER TABLE WatchListItems ADD Genre NVARCHAR(50) NOT NULL DEFAULT 'Other';
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Year')
+    ALTER TABLE WatchListItems ADD Year INT NULL;
+
+-- ✅ Update Views to include new columns
+GO
+CREATE OR ALTER VIEW Books AS
+SELECT Id, WatchListId, Title, PagesOrDuration AS Pages, AuthorId, IsCompleted, Genre, Year
 FROM WatchListItems
 WHERE ItemType = 'Book';
 
-GO  -- Separate batch for next view
-
--- 📌 View for Movies (Filters only movies)
-CREATE VIEW Movies AS
-SELECT Id, WatchListId, Title, PagesOrDuration AS Duration, DirectorId, IsCompleted
+GO
+CREATE OR ALTER VIEW Movies AS
+SELECT Id, WatchListId, Title, PagesOrDuration AS Duration, DirectorId, IsCompleted, Genre, Year
 FROM WatchListItems
 WHERE ItemType = 'Movie';
