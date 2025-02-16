@@ -84,6 +84,7 @@ namespace OWN.GroupProject2.DataLayer
             //.UseSqlServer(@";");
 
             //Timothy's connection string
+            // device name \\TIMOTHY
             .UseSqlServer(@"Data Source =.\LESCSHARP; Initial Catalog = FXTWishlist; Integrated Security = True; Encrypt = False");
         }
     }
