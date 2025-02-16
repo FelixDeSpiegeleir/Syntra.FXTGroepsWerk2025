@@ -9,3 +9,6 @@
 		- Op einde: 'other' om zelf een genre toe te voegen
 
 		- Table maken voor genres in database
+
+- Zelf items toevoegen aan wishlist
+- Werken vanuit een standaard list met ~100 items die door de gebruiken aangepast kan worden
