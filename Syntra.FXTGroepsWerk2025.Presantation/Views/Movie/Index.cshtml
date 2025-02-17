@@ -1,38 +1,11 @@
-﻿@model IEnumerable<OWN.GroupProject2.Objects.Movie>
+﻿@model IEnumerable<OWN.GroupProject2.Objects.MovieModel>
 
 @{
-    // DUMMY LIST FOR TESTING
-    ViewData["Title"] = "Movies List";
-    var random = new Random();
-    var movies = new List<OWN.GroupProject2.Objects.Movie>
-    {
-        new OWN.GroupProject2.Objects.Movie { Id = 1, Title = "Movie 1", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 1" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 2, Title = "Movie 2", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 2" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 3, Title = "Movie 3", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 3" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 4, Title = "Movie 4", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 4" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 5, Title = "Movie 5", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 5" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 6, Title = "Movie 6", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 6" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 7, Title = "Movie 7", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 7" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 8, Title = "Movie 8", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 8" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 9, Title = "Movie 9", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 9" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 10, Title = "Movie 10", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 10" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 11, Title = "Movie 11", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 11" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 12, Title = "Movie 12", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 12" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 13, Title = "Movie 13", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 13" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 14, Title = "Movie 14", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 14" } },
-        new OWN.GroupProject2.Objects.Movie { Id = 15, Title = "Movie 15", Duration = random.Next(60, 180), Year = random.Next(1980, 2023), Director = new OWN.GroupProject2.Objects.Director { Name = "Director 15" } }
-    };
-
-
-    // SORT FUNCTION (NYI)
-    string sortOrder = ViewData["SortOrder"] as string ?? "asc";
-    string sortColumn = ViewData["SortColumn"] as string ?? "Title";
-
-    movies = sortOrder == "asc" ? movies.OrderBy(m => m.GetType().GetProperty(sortColumn).GetValue(m)).ToList() : movies.OrderByDescending(m => m.GetType().GetProperty(sortColumn).GetValue(m)).ToList();
+    ViewData["Title"] = "Index";
 }
 @*main movies view list 
 -contains all movies known to the database
--able to sort on each property by clicking table head
+-able to sort on each property by clicking table head -- DONE -> needs to be moved to js file
 -clickable butons to:
  * add to Wishlist
  * View details
@@ -41,45 +14,158 @@
  * Durationd
  * Year of release
  * director
- * Actions (btns)*@
+ * Actions (btns)
+ 
+ *@
 
-<h2>📽ALL MOVIES📽</h2>
+ <style>
+     table {
+         background-color: rgba(173, 216, 230, 0.25); /* light blue with 25% opacity */
+         border: 3px solid black;
+         border-radius: 20px;
+         width: 100%;
+         border-collapse: separate;
+         border-spacing: 0;
+     }
+
+     th {
+         background-color: blue; /* blue with 50% opacity */
+         border: 3px solid black;
+         padding: 10px;
+     }
+
+     td {
+         border: 1px solid lightgrey;
+         padding: 10px;
+     }
+ </style>
+
+<h2 class="text-center">📽ALL MOVIES📽</h2>
+
 <p>
-
-    <a asp-action="Create" class="btn btn-primary">Add New Movie</a>
+    <a asp-action="Create">Create New</a>
 </p>
-<table class="table table-striped">
+
+<p>
+    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for movies..">
+</p>
+
+<table class="table" id="moviesTable">
     <thead>
         <tr>
-            <th>
-                <a asp-action="Index" asp-route-sortColumn="Title" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Title</a>
+            <th onclick="sortTable(0)">
+                @Html.DisplayNameFor(model => model.Duration)
             </th>
-            <th>
-                <a asp-action="Index" asp-route-sortColumn="Duration" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Duration (min)</a>
+            <th onclick="sortTable(1)">
+                @Html.DisplayNameFor(model => model.Year)
             </th>
-            <th>
-                <a asp-action="Index" asp-route-sortColumn="Year" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Year</a>
+            <th onclick="sortTable(2)">
+                @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
-                <a asp-action="Index" asp-route-sortColumn="Director" asp-route-sortOrder="@(sortOrder == "asc" ? "desc" : "asc")">Director</a>
+            <th onclick="sortTable(4)">
+                @Html.DisplayNameFor(model => model.Genre)
             </th>
-            <th>Actions</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var movie in movies)
-        {
-            <tr>
-                <td>@movie.Title</td>
-                <td>@movie.Duration</td>
-                <td>@movie.Year</td>
-                <td>@(movie.Director != null ? movie.Director.Name : "Unknown")</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration ) Minutes
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+
+        // script to sort table by clicking the colomn header
+        function sortTable(columnIndex) 
+        {
+            // instance all vars
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            // assign vars
+            table = document.getElementById("moviesTable");
+            switching = true;
+            dir = "asc"; 
+            // sorting
+            while (switching) 
+            {
+                // Start by saying: no switching is done
+                switching = false;
+                rows = table.rows;
+                // Loop through all table rows (except the first, which contains table headers)
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    // Get the two elements you want to compare, one from current row and one from the next
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                    // Check if the two rows should switch place, based on the direction, asc or desc
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    // If a switch has been marked, make the switch and mark that a switch has been done
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    // If no switching has been done AND the direction is "asc", set the direction to "desc" and run the while loop again
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        // script to filter table by search input
+        function filterTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("moviesTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+}

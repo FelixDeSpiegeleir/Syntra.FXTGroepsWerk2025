@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OWN.GroupProject2.Objects;
 
 namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
 {
     public class MovieController : Controller
     {
+        // tempt movie list for testing
+        static List<MovieModel> Movies = MovieModel.GetTempMovies();
+
         // GET: MovieController
-        public ActionResult Index()
+        public IActionResult Index()
         {
-            return View();
+            return View(Movies);
         }
 
         // GET: MovieController/Details/5

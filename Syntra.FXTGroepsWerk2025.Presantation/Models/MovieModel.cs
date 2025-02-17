@@ -7,8 +7,27 @@ namespace OWN.GroupProject2.Objects
     /// <summary>
     /// Represents a Movie entity, inheriting from WatchListItem.
     /// </summary>
-    public class Movie : WatchListItem
+    public class MovieModel : WatchListItem
     {
+        /// <summary>
+        /// mehtod that gets a temp list of movies for testing
+        /// </summary>
+        /// <returns></returns>
+        public static List<MovieModel> GetTempMovies()
+        {
+            return new List<MovieModel>()
+            {
+                new MovieModel() { Duration = 120, Director = new Director() { Name = "Steven Spielberg" }, Year = 1993, Title = "Jurassic Park", IsCompleted = true, Genre = GenreType.Action },
+                new MovieModel() { Duration = 142, Director = new Director() { Name = "James Cameron" }, Year = 1997, Title = "Titanic", IsCompleted = true, Genre = GenreType.Romance },
+                new MovieModel() { Duration = 152, Director = new Director() { Name = "Christopher Nolan" }, Year = 2010, Title = "Inception", IsCompleted = true, Genre = GenreType.SciFi },
+                new MovieModel() { Duration = 121, Director = new Director() { Name = "Quentin Tarantino" }, Year = 1994, Title = "Pulp Fiction", IsCompleted = true, Genre = GenreType.Other },
+                new MovieModel() { Duration = 136, Director = new Director() { Name = "Peter Jackson" }, Year = 2001, Title = "The Lord of the Rings: The Fellowship of the Ring", IsCompleted = true, Genre = GenreType.Fantasy },
+                new MovieModel() { Duration = 130, Director = new Director() { Name = "Ridley Scott" }, Year = 2000, Title = "Gladiator", IsCompleted = true, Genre = GenreType.Action },
+                new MovieModel() { Duration = 116, Director = new Director() { Name = "Robert Zemeckis" }, Year = 1985, Title = "Back to the Future", IsCompleted = true, Genre = GenreType.SciFi },
+                new MovieModel() { Duration = 125, Director = new Director() { Name = "Francis Ford Coppola" }, Year = 1972, Title = "The Godfather", IsCompleted = true, Genre = GenreType.Other }
+            };
+        }
+
         /// <summary>
         /// Gets or sets the duration of the movie in minutes.
         /// </summary>
@@ -34,5 +53,12 @@ namespace OWN.GroupProject2.Objects
         /// </summary>
         [ForeignKey("Director")]
         public int DirectorId { get; set; }
+
+        /// <summary>
+        /// Dummy movie list for testing
+        /// </summary>
+        /// 
+
+
     }
 }
