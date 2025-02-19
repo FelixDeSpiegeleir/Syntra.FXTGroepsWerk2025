@@ -78,5 +78,14 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Books
             //book is removed, so id is probably not necessary.
             return book.Id;
         }
+
+        //get a list of books from the datalayer
+        public List<Book> GetBooks()
+        {
+            using (var ctx = new MyContext())
+            {
+                return ctx.Books.ToList();
+            }
+        }
     }
 }

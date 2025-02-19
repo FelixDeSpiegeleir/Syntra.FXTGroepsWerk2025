@@ -82,12 +82,13 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Movies
             return movie.Id;
         }
 
+        //get a list of movies from the datalayer
         public List<Movie> GetMovies()
         {
-            var list = new List<Movie>();
-
-           
-            return list;// temp
+            using (var ctx = new MyContext())
+            {
+                return ctx.Movies.ToList();
+            }
         }
     }
 }
