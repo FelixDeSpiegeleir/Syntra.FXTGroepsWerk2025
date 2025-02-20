@@ -1,3 +1,5 @@
+using Syntra.FXTGroepsWerk2025.Logic.Movies;
+
 namespace Syntra.FXTGroepsWerk2025.Presantation
 {
     public class Program
@@ -8,6 +10,7 @@ namespace Syntra.FXTGroepsWerk2025.Presantation
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddTransient<IMovieService, MovieService>();
 
             var app = builder.Build();
 

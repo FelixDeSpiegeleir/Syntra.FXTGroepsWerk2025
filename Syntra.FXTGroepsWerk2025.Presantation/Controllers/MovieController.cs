@@ -1,18 +1,23 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OWN.GroupProject2.Objects;
+using Syntra.FXTGroepsWerk2025.Logic.Movies;
 
 namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
 {
     public class MovieController : Controller
     {
         // tempt movie list for testing
-        static List<MovieModel> Movies = MovieModel.GetTempMovies();
+        // static List<MovieModel> Movies = MovieModel.GetTempMovies();
+        static IMovieService MovieService { get; set; }
+        static List<Movie> MovieList { get; set; }
 
         // GET: MovieController
-        public IActionResult Index()
+        public IActionResult Index([FromServices]IMovieService serv)
         {
-            return View(Movies);
+            MovieService = serv;
+            MovieList = serv.GetMovies();
+            return View(MovieList);
         }
 
         // GET: MovieController/Details/5
