@@ -17,14 +17,14 @@ namespace OWN.GroupProject2.Objects
         {
             return new List<MovieModel>()
             {
-                new MovieModel() { Duration = 120, Director = new Director() { Name = "Steven Spielberg" }, Year = 1993, Title = "Jurassic Park", IsCompleted = true, Genre = GenreType.Action },
-                new MovieModel() { Duration = 142, Director = new Director() { Name = "James Cameron" }, Year = 1997, Title = "Titanic", IsCompleted = true, Genre = GenreType.Romance },
-                new MovieModel() { Duration = 152, Director = new Director() { Name = "Christopher Nolan" }, Year = 2010, Title = "Inception", IsCompleted = true, Genre = GenreType.SciFi },
-                new MovieModel() { Duration = 121, Director = new Director() { Name = "Quentin Tarantino" }, Year = 1994, Title = "Pulp Fiction", IsCompleted = true, Genre = GenreType.Other },
-                new MovieModel() { Duration = 136, Director = new Director() { Name = "Peter Jackson" }, Year = 2001, Title = "The Lord of the Rings: The Fellowship of the Ring", IsCompleted = true, Genre = GenreType.Fantasy },
-                new MovieModel() { Duration = 130, Director = new Director() { Name = "Ridley Scott" }, Year = 2000, Title = "Gladiator", IsCompleted = true, Genre = GenreType.Action },
-                new MovieModel() { Duration = 116, Director = new Director() { Name = "Robert Zemeckis" }, Year = 1985, Title = "Back to the Future", IsCompleted = true, Genre = GenreType.SciFi },
-                new MovieModel() { Duration = 125, Director = new Director() { Name = "Francis Ford Coppola" }, Year = 1972, Title = "The Godfather", IsCompleted = true, Genre = GenreType.Other }
+                new MovieModel() { Duration = 120, Director = new Director() { Name = "Steven Spielberg" }, Year = 1993, Title = "Jurassic Park", IsCompleted = true, Genre = GenreType.Action, IMDBId = "tt0107290" },
+                new MovieModel() { Duration = 142, Director = new Director() { Name = "James Cameron" }, Year = 1997, Title = "Titanic", IsCompleted = true, Genre = GenreType.Romance, IMDBId = "tt0120338" },
+                new MovieModel() { Duration = 152, Director = new Director() { Name = "Christopher Nolan" }, Year = 2010, Title = "Inception", IsCompleted = true, Genre = GenreType.SciFi, IMDBId = "tt1375666" },
+                new MovieModel() { Duration = 121, Director = new Director() { Name = "Quentin Tarantino" }, Year = 1994, Title = "Pulp Fiction", IsCompleted = true, Genre = GenreType.Other, IMDBId = "tt0110912" },
+                new MovieModel() { Duration = 136, Director = new Director() { Name = "Peter Jackson" }, Year = 2001, Title = "The Lord of the Rings: The Fellowship of the Ring", IsCompleted = true, Genre = GenreType.Fantasy, IMDBId = "tt0120737" },
+                new MovieModel() { Duration = 130, Director = new Director() { Name = "Ridley Scott" }, Year = 2000, Title = "Gladiator", IsCompleted = true, Genre = GenreType.Action, IMDBId = "tt0172495" },
+                new MovieModel() { Duration = 116, Director = new Director() { Name = "Robert Zemeckis" }, Year = 1985, Title = "Back to the Future", IsCompleted = true, Genre = GenreType.SciFi, IMDBId = "tt0088763" },
+                new MovieModel() { Duration = 125, Director = new Director() { Name = "Francis Ford Coppola" }, Year = 1972, Title = "The Godfather", IsCompleted = true, Genre = GenreType.Other}
             };
         }
 
@@ -55,10 +55,9 @@ namespace OWN.GroupProject2.Objects
         public int DirectorId { get; set; }
 
         /// <summary>
-        /// Dummy movie list for testing
+        /// Gets or sets the IMDB identifier for the movie.
         /// </summary>
-        /// 
-
+        public string IMDBId { get; set; }
 
     }
 }
