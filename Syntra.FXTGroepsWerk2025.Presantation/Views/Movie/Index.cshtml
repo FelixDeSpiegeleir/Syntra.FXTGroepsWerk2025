@@ -4,6 +4,19 @@
 	ViewData["Title"] = "Index";
 }
 
+@*main movies view list 
+-contains all movies known to the database
+-able to sort on each property by clicking table head -- DONE -> needs to be moved to js file
+-clickable buttons to:
+ * add to Wishlist --TO DO
+ * View details -- DONE -- IMDB CONNECTED
+- table rows for (in order):
+ * Title
+ * Durationd
+ * Year of release
+ * Actions (btns)
+
+ *@
 <style>
 	table {
 		background-color: rgba(173, 216, 230, 0.25);
@@ -24,8 +37,56 @@
 		border: 1px solid lightgrey;
 		padding: 10px;
 	}
-</style>
 
+		/* First and Second Columns */
+		td:nth-child(1), td:nth-child(2), th:nth-child(1), th:nth-child(2) {
+			width: auto;
+			padding-right: 15px;
+		}
+
+		/* Third Column (Title) takes the remaining space */
+		td:nth-child(3), th:nth-child(3) {
+			width: 100%;
+		}
+
+		/* Last Column (Actions) fits the buttons */
+		td:nth-child(5), th:nth-child(5) {
+			width: auto;
+			text-align: center;
+		}
+
+	.wishlist-btn {
+		background-color: #28a745;
+		color: white;
+		border: none;
+		padding: 8px 12px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-weight: bold;
+	}
+
+		.wishlist-btn:hover {
+			background-color: #218838;
+		}
+
+	/* IMDB Button Styling */
+	.imdb-btn {
+		display: inline-block;
+		margin-left: 10px;
+	}
+
+	.imdb-logo {
+		width: 40px; /* Adjust size as needed */
+		height: auto;
+		border-radius: 5px;
+		transition: transform 0.2s;
+	}
+
+		.imdb-logo:hover {
+			transform: scale(1.1);
+		}
+
+</style>
 <h2 class="text-center">📽ALL MOVIES📽</h2>
 
 <p>
@@ -71,9 +132,9 @@
 					@Html.DisplayFor(modelItem => item.Genre)
 				</td>
 				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-					<a href="javascript:void(0);" onclick="checkIMDBId('@item.IMDBId')">
-						IMDB
+					<button class="wishlist-btn" onclick="addToWishlist('@item.Id')">Add to Wishlist</button>
+					<a href="javascript:void(0);" onclick="checkIMDBId('@item.IMDBId')" class="imdb-btn">
+						<img src="https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg" alt="IMDB" class="imdb-logo">
 					</a>
 				</td>
 			</tr>
@@ -157,6 +218,13 @@
 												window.open("https://www.imdb.com/title/" + imdbId, "_blank", "noopener noreferrer");
 											}
 										}
+		// Function to add movie to wishlist
+		function addToWishlist(movieId) {
+											alert("You need to be logged in to add movies to your wishlist.");
+											// Placeholder for future AJAX call or form submission to save the wishlist
+											console.log("Movie ID to add:", movieId);
+										}
+
 
 	</script>
 }
