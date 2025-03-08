@@ -7,8 +7,8 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
 {
     public class MovieController : Controller
     {
-        // tempt movie list for testing
-        static List<MovieModel> TempMovies = MovieModel.GetTempMovies();
+        //// tempt movie list for testing
+        //static List<MovieModel> TempMovies = MovieModel.GetTempMovies();
         static IMovieService MovieService { get; set; }
         static List<Movie> MovieList { get; set; }
 
