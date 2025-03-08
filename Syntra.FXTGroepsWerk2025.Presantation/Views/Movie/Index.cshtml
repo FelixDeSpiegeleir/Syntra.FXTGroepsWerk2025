@@ -1,182 +1,230 @@
 ﻿@model IEnumerable<OWN.GroupProject2.Objects.MovieModel>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
+
 @*main movies view list 
 -contains all movies known to the database
 -able to sort on each property by clicking table head -- DONE -> needs to be moved to js file
-    * SORTING ON GENRE ???
 -clickable buttons to:
  * add to Wishlist --TO DO
- * View details -- TO DO
+ * View details -- DONE -- IMDB CONNECTED
 - table rows for (in order):
  * Title
  * Durationd
  * Year of release
- * director
  * Actions (btns)
- 
+
  *@
+<style>
+	table {
+		background-color: rgba(173, 216, 230, 0.25);
+		border: 3px solid black;
+		border-radius: 20px;
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0;
+	}
 
- <style>
-     table {
-         background-color: rgba(173, 216, 230, 0.25); /* light blue with 25% opacity */
-         border: 3px solid black;
-         border-radius: 20px;
-         width: 100%;
-         border-collapse: separate;
-         border-spacing: 0;
-     }
+	th {
+		background-color: blue;
+		border: 3px solid black;
+		padding: 10px;
+	}
 
-     th {
-         background-color: blue; /* blue with 50% opacity */
-         border: 3px solid black;
-         padding: 10px;
-     }
+	td {
+		border: 1px solid lightgrey;
+		padding: 10px;
+	}
 
-     td {
-         border: 1px solid lightgrey;
-         padding: 10px;
-     }
- </style>
+		/* First and Second Columns */
+		td:nth-child(1), td:nth-child(2), th:nth-child(1), th:nth-child(2) {
+			width: auto;
+			padding-right: 15px;
+		}
 
+		/* Third Column (Title) takes the remaining space */
+		td:nth-child(3), th:nth-child(3) {
+			width: 100%;
+		}
+
+		/* Last Column (Actions) fits the buttons */
+		td:nth-child(5), th:nth-child(5) {
+			width: auto;
+			text-align: center;
+		}
+
+	.wishlist-btn {
+		background-color: #28a745;
+		color: white;
+		border: none;
+		padding: 8px 12px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-weight: bold;
+	}
+
+		.wishlist-btn:hover {
+			background-color: #218838;
+		}
+
+	/* IMDB Button Styling */
+	.imdb-btn {
+		display: inline-block;
+		margin-left: 10px;
+	}
+
+	.imdb-logo {
+		width: 40px; /* Adjust size as needed */
+		height: auto;
+		border-radius: 5px;
+		transition: transform 0.2s;
+	}
+
+		.imdb-logo:hover {
+			transform: scale(1.1);
+		}
+
+</style>
 <h2 class="text-center">📽ALL MOVIES📽</h2>
 
 <p>
-    <a asp-action="Create">MOVIE NOT IN LIST? CLICK HERE TO ADD IT!</a>
+	<a asp-action="Create">MOVIE NOT IN LIST? CLICK HERE TO ADD IT!</a>
 </p>
 
 <p>
-    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for movies..">
+	<input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for movies..">
 </p>
 
 <table class="table" id="moviesTable">
-    <thead>
-        <tr>
-            <th onclick="sortTable(0)">
-                @Html.DisplayNameFor(model => model.Duration)
-            </th>
-            <th onclick="sortTable(1)">
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th onclick="sortTable(2)">
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th onclick="sortTable(4)">
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration ) Minutes
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey ADD TO LIST HERE */ })
-				@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey IMDB HERE*/ })
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th onclick="sortTable(0)">
+				@Html.DisplayNameFor(model => model.Duration)
+			</th>
+			<th onclick="sortTable(1)">
+				@Html.DisplayNameFor(model => model.Year)
+			</th>
+			<th onclick="sortTable(2)">
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th onclick="sortTable(3)">
+				@Html.DisplayNameFor(model => model.Genre)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Duration) Minutes
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Year)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Genre)
+				</td>
+				<td>
+					<button class="wishlist-btn" onclick="addToWishlist('@item.Id')">Add to Wishlist</button>
+					<a href="javascript:void(0);" onclick="checkIMDBId('@item.IMDBId')" class="imdb-btn">
+						<img src="https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg" alt="IMDB" class="imdb-logo">
+					</a>
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
 
 @section Scripts {
-    <script>
+	<script>
+		// Function to sort the table based on the column index
+		function sortTable(columnIndex) {
+										var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+										table = document.getElementById("moviesTable"); // Get the table element
+										switching = true; // Set the switching flag to true
+										dir = "asc"; // Set the sorting direction to ascending
+										// Loop until no switching is needed
+										while (switching) {
+											switching = false; // Start by saying no switching is done
+											rows = table.rows; // Get all the rows in the table
+											// Loop through all table rows (except the first, which contains table headers)
+											for (i = 1; i < (rows.length - 1); i++) {
+												shouldSwitch = false; // Start by saying there should be no switching
+												x = rows[i].getElementsByTagName("TD")[columnIndex]; // Get the current element
+												y = rows[i + 1].getElementsByTagName("TD")[columnIndex]; // Get the next element
+												// Check if the two rows should switch place, based on the direction, asc or desc
+												if (dir == "asc") {
+													if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												} else if (dir == "desc") {
+													if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												}
+											}
+											if (shouldSwitch) {
+												// If a switch has been marked, make the switch and mark that a switch has been done
+												rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+												switching = true;
+												switchcount++; // Increase switch count by 1
+											} else {
+												// If no switching has been done and the direction is "asc", set the direction to "desc" and run the while loop again
+												if (switchcount == 0 && dir == "asc") {
+													dir = "desc";
+													switching = true;
+												}
+											}
+										}
+									}
+		// Function to filter the table based on the search input
+		function filterTable() {
+										var input, filter, table, tr, td, i, j, txtValue;
+										input = document.getElementById("searchInput"); // Get the search input element
+										filter = input.value.toLowerCase(); // Get the search input value and convert to lowercase
+										table = document.getElementById("moviesTable"); // Get the table element
+										tr = table.getElementsByTagName("tr"); // Get all the rows in the table
+										// Loop through all table rows (except the first, which contains table headers)
+										for (i = 1; i < tr.length; i++) {
+											tr[i].style.display = "none"; // Hide the row initially
+											td = tr[i].getElementsByTagName("td"); // Get all the cells in the row
+											// Loop through all cells in the row
+											for (j = 0; j < td.length; j++) {
+												if (td[j]) {
+													txtValue = td[j].textContent || td[j].innerText; // Get the cell text content
+													// If the cell text content matches the search input, display the row
+													if (txtValue.toLowerCase().indexOf(filter) > -1) {
+														tr[i].style.display = "";
+														break;
+													}
+												}
+											}
+										}
+									}
+		// Functiion to see if IMDBId is blank
+		function checkIMDBId(imdbId) {
+											if (!imdbId) {
+												alert("IMDB ID is not available for this movie.");
+											} else {
+												window.open("https://www.imdb.com/title/" + imdbId, "_blank", "noopener noreferrer");
+											}
+										}
+		// Function to add movie to wishlist
+		function addToWishlist(movieId) {
+											alert("You need to be logged in to add movies to your wishlist.");
+											// Placeholder for future AJAX call or form submission to save the wishlist
+											console.log("Movie ID to add:", movieId);
+										}
 
-        // script to sort table by clicking the colomn header
-        function sortTable(columnIndex) 
-        {
-            // instance all vars
-            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            // assign vars
-            table = document.getElementById("moviesTable");
-            switching = true;
-            dir = "asc"; 
-            // sorting
-            while (switching) 
-            {
-                // Start by saying: no switching is done
-                switching = false;
-                rows = table.rows;
-                // Loop through all table rows (except the first, which contains table headers)
-                for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    // Get the two elements you want to compare, one from current row and one from the next
-                    x = rows[i].getElementsByTagName("TD")[columnIndex];
-                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
-                    // Check if the two rows should switch place, based on the direction, asc or desc
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                if (shouldSwitch) {
-                    // If a switch has been marked, make the switch and mark that a switch has been done
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    switchcount++;
-                } else {
-                    // If no switching has been done AND the direction is "asc", set the direction to "desc" and run the while loop again
-                    if (switchcount == 0 && dir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
-                }
-            }
-        }
 
-        // script to filter table by search input
-        function filterTable() {
-            // Declare variables
-            var input, filter, table, tr, td, i, j, txtValue;
-            // Get the input element and its value
-            input = document.getElementById("searchInput");
-            filter = input.value.toLowerCase();
-            // Get the table and its rows
-            table = document.getElementById("moviesTable");
-            tr = table.getElementsByTagName("tr");
-
-            // Loop through all table rows (except the first, which contains table headers)
-            for (i = 1; i < tr.length; i++) {
-                // Hide the row initially
-                tr[i].style.display = "none";
-                // Get all cells in the current row
-                td = tr[i].getElementsByTagName("td");
-                // Loop through all cells in the current row
-                for (j = 0; j < td.length; j++) {
-                    if (td[j]) {
-                        // Get the text content of the cell
-                        txtValue = td[j].textContent || td[j].innerText;
-                        // If the cell text matches the filter, display the row
-                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+	</script>
 }
