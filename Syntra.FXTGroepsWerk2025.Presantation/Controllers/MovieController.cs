@@ -15,8 +15,12 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
         // GET: MovieController
         public IActionResult Index([FromServices]IMovieService serv)
         {
-            MovieService = serv;
+            //// for actual data
+            //MovieService = serv;
             //MovieList = serv.GetMovies();
+            //return View(MovieList);
+
+            // for testing
             return View(Movies);
         }
 
