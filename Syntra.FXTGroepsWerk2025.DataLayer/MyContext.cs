@@ -75,17 +75,28 @@ namespace OWN.GroupProject2.DataLayer
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder
-                .UseLazyLoadingProxies()
-            ////Xander's connection string
-            //.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False;");
+            optionsBuilder.UseLazyLoadingProxies();
 
-            ////Felix's connection string
-            //.UseSqlServer(@";");
+            string machineName = Environment.MachineName;
+            string connectionString;
 
-            //Timothy's connection string
-            // device name \\TIMOTHY
-            .UseSqlServer(@"Data Source =.\LESCSHARP; Initial Catalog = FXTWishlist; Integrated Security = True; Encrypt = False");
+            switch (machineName)
+            {
+                case "TIMOTHY": // Timothy's PC
+                    connectionString = @"Data Source=.\LESCSHARP; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
+                    break;
+                case "MobileBlockn": // Xander's PC 
+                    connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False";
+                    break;
+                case "FELIX": // Felix's PC (Replace with actual machine name)
+                    connectionString = @"<Felix's Connection String>";
+                    break;
+                default:
+                    throw new Exception("Unknown machine name. Please configure the connection string for this machine.");
+            }
+
+            optionsBuilder.UseSqlServer(connectionString);
         }
+
     }
 }
