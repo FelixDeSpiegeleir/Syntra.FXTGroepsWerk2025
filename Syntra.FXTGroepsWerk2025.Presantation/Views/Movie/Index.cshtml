@@ -6,9 +6,10 @@
 @*main movies view list 
 -contains all movies known to the database
 -able to sort on each property by clicking table head -- DONE -> needs to be moved to js file
--clickable butons to:
- * add to Wishlist
- * View details
+    * SORTING ON GENRE ???
+-clickable buttons to:
+ * add to Wishlist --TO DO
+ * View details -- TO DO
 - table rows for (in order):
  * Title
  * Durationd
@@ -43,7 +44,7 @@
 <h2 class="text-center">📽ALL MOVIES📽</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">MOVIE NOT IN LIST? CLICK HERE TO ADD IT!</a>
 </p>
 
 <p>
@@ -84,7 +85,8 @@
                 @Html.DisplayFor(modelItem => item.Genre)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey ADD TO LIST HERE */ })
+				@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey IMDB HERE*/ })
             </td>
         </tr>
 }
@@ -147,18 +149,27 @@
 
         // script to filter table by search input
         function filterTable() {
+            // Declare variables
             var input, filter, table, tr, td, i, j, txtValue;
+            // Get the input element and its value
             input = document.getElementById("searchInput");
             filter = input.value.toLowerCase();
+            // Get the table and its rows
             table = document.getElementById("moviesTable");
             tr = table.getElementsByTagName("tr");
 
+            // Loop through all table rows (except the first, which contains table headers)
             for (i = 1; i < tr.length; i++) {
+                // Hide the row initially
                 tr[i].style.display = "none";
+                // Get all cells in the current row
                 td = tr[i].getElementsByTagName("td");
+                // Loop through all cells in the current row
                 for (j = 0; j < td.length; j++) {
                     if (td[j]) {
+                        // Get the text content of the cell
                         txtValue = td[j].textContent || td[j].innerText;
+                        // If the cell text matches the filter, display the row
                         if (txtValue.toLowerCase().indexOf(filter) > -1) {
                             tr[i].style.display = "";
                             break;

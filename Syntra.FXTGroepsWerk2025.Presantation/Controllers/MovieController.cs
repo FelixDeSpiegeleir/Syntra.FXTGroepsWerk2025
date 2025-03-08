@@ -8,7 +8,7 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
     public class MovieController : Controller
     {
         // tempt movie list for testing
-        // static List<MovieModel> Movies = MovieModel.GetTempMovies();
+        static List<MovieModel> Movies = MovieModel.GetTempMovies();
         static IMovieService MovieService { get; set; }
         static List<Movie> MovieList { get; set; }
 
@@ -16,8 +16,8 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
         public IActionResult Index([FromServices]IMovieService serv)
         {
             MovieService = serv;
-            MovieList = serv.GetMovies();
-            return View(MovieList);
+            //MovieList = serv.GetMovies();
+            return View(Movies);
         }
 
         // GET: MovieController/Details/5
