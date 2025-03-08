@@ -18,5 +18,10 @@ namespace OWN.GroupProject2.Objects
         /// Gets or sets the director of the movie.
         /// </summary>
         public virtual Director Director { get; set; }
+
+        /// <summary>
+        /// Place for the IMDB id of the movie.
+        /// </summary>
+        public string IMDBId { get; set; } = string.Empty;
     }
 }

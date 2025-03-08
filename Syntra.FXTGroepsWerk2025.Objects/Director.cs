@@ -26,6 +26,6 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Gets or sets the list of movies directed by the director.
         /// </summary>
-        public List<Movie> Movies { get; set; }
+        public virtual List<Movie> Movies { get; set; }
     }
 }

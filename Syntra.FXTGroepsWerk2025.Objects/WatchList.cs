@@ -48,7 +48,7 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Gets or sets the list of items in the watch list.
         /// </summary>
-        public List<WatchListItem> Items { get; set; } = new List<WatchListItem>();
+        public virtual List<WatchListItem> Items { get; set; } = new List<WatchListItem>();
 
         /// <summary>
         /// Gets the total number of completed items in the watch list.
@@ -94,6 +94,16 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Gets or sets a custom genre for the watch list item if "Other" is selected.
         /// </summary>
+        // Ensure CustomGenre is provided if 'Other' is selected
         public string? CustomGenre { get; set; }
+
+        /// <summary>
+        /// Gets or sets the genre that the item belongs to.
+        /// </summary>
+        
+        public bool IsCustomGenreRequired()
+        {
+            return Genre == GenreType.Other && string.IsNullOrWhiteSpace(CustomGenre);
+        }
     }
 }

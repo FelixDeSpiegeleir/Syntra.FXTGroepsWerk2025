@@ -23,6 +23,6 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Gets or sets the list of books written by the author.
         /// </summary>
-        public List<Book> Books { get; set; }
+        public virtual List<Book> Books { get; set; }
     }
 }

@@ -42,20 +42,27 @@ BEGIN
         PagesOrDuration INT NULL,
         AuthorId INT NULL,
         DirectorId INT NULL,
-        Genre NVARCHAR(50) NOT NULL DEFAULT 'Other',
-        Year INT NULL,
         CONSTRAINT FK_WatchListItems_WatchList FOREIGN KEY (WatchListId) REFERENCES WatchLists(Id) ON DELETE CASCADE,
         CONSTRAINT FK_WatchListItems_Author FOREIGN KEY (AuthorId) REFERENCES Authors(Id) ON DELETE SET NULL,
         CONSTRAINT FK_WatchListItems_Director FOREIGN KEY (DirectorId) REFERENCES Directors(Id) ON DELETE SET NULL
     );
 END
 
--- ✅ Ensure columns exist for Genre and Year
+-- ✅ Ensure columns exist
 IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Genre')
-    ALTER TABLE WatchListItems ADD Genre NVARCHAR(50) NOT NULL DEFAULT 'Other';
+    ALTER TABLE WatchListItems ADD Genre NVARCHAR(255) NULL;
 
 IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Year')
     ALTER TABLE WatchListItems ADD Year INT NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'IMDBId')
+    ALTER TABLE WatchListItems ADD IMDBId NVARCHAR(20) NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'CustomGenre')
+    ALTER TABLE WatchListItems ADD CustomGenre NVARCHAR(255) NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Duration')
+    ALTER TABLE WatchListItems ADD Duration INT NULL;
 
 -- ✅ Update Views to include new columns
 GO
@@ -66,6 +73,6 @@ WHERE ItemType = 'Book';
 
 GO
 CREATE OR ALTER VIEW Movies AS
-SELECT Id, WatchListId, Title, PagesOrDuration AS Duration, DirectorId, IsCompleted, Genre, Year
+SELECT Id, WatchListId, Title, PagesOrDuration AS Duration, DirectorId, IsCompleted, Genre, Year, IMDBId
 FROM WatchListItems
 WHERE ItemType = 'Movie';

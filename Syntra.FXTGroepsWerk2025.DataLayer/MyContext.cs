@@ -53,18 +53,6 @@ namespace OWN.GroupProject2.DataLayer
                 .HasDiscriminator<string>("ItemType") // Creates a column named "ItemType" to distinguish entities
                 .HasValue<Book>("Book")  // Records with "ItemType" = "Book" are mapped to the Book class
                 .HasValue<Movie>("Movie"); // Records with "ItemType" = "Movie" are mapped to the Movie class
-
-            //// 📚 Configuring the One-to-Many Relationship Between Book and Author
-            //modelBuilder.Entity<Book>()
-            //    .HasOne(b => b.Author)  // A book has one author
-            //    .WithMany(a => a.Books)  // An author can have many books
-            //    .HasForeignKey("AuthorId"); // Foreign key in Book table referencing Author's primary key
-
-            //// 🎬 Configuring the One-to-Many Relationship Between Movie and Director
-            //modelBuilder.Entity<Movie>()
-            //    .HasOne(m => m.Director)  // A movie has one director
-            //    .WithMany(d => d.Movies)  // A director can have many movies
-            //    .HasForeignKey("DirectorId"); // Foreign key in Movie table referencing Director's primary key
         }
 
         /// <summary>
@@ -85,11 +73,11 @@ namespace OWN.GroupProject2.DataLayer
                 case "TIMOTHY": // Timothy's PC
                     connectionString = @"Data Source=.\LESCSHARP; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
                     break;
-                case "MobileBlockn": // Xander's PC 
+                case "MOBILEBLOCKN": // Xander's PC 
                     connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False";
                     break;
-                case "FELIX": // Felix's PC (Replace with actual machine name)
-                    connectionString = @"<Felix's Connection String>";
+                case "Acer-Laptop": // Felix's PC 
+                    connectionString = @"Data Source=.\SQLEXPRESS; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
                     break;
                 default:
                     throw new Exception("Unknown machine name. Please configure the connection string for this machine.");
