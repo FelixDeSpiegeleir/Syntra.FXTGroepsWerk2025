@@ -76,7 +76,7 @@ namespace OWN.GroupProject2.DataLayer
                 case "MOBILEBLOCKN": // Xander's PC 
                     connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False";
                     break;
-                case "Acer-Laptop": // Felix's PC 
+                case "ACER-LAPTOP": // Felix's PC 
                     connectionString = @"Data Source=.\SQLEXPRESS; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
                     break;
                 default:

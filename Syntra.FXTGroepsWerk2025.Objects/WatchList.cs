@@ -10,17 +10,21 @@ namespace OWN.GroupProject2.Objects
     /// </summary>
     public enum GenreType
     {
-        Action,
-        Comedy,
-        Drama,
-        Fantasy,
-        Horror,
-        Mystery,
-        Romance,
-        SciFi,
-        Thriller,
-        Documentary,
-        Other
+        Action,         // 0
+        Comedy,         // 1
+        Drama,          // 2
+        Fantasy,        // 3
+        Horror,         // 4
+        Mystery,        // 5
+        Romance,        // 6
+        SciFi,          // 7
+        Thriller,       // 8
+        Documentary,    // 9
+        Historical,     // 10
+        Philosophical,  // 11
+        Epic,           // 12
+        Crime,          // 13
+        Other           // 14
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using OWN.GroupProject2.DataLayer;
+﻿using Microsoft.EntityFrameworkCore;
+using OWN.GroupProject2.DataLayer;
 using OWN.GroupProject2.Objects;
 using System;
 using System.Collections.Generic;
@@ -10,26 +11,30 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Movies
 {
     public class MovieService : IMovieService
     {
+        private readonly MyContext _context;
+
+        public MovieService(MyContext context)
+        {
+            _context = context;
+        }
         //method to add a movie to the database
         public int AddMovie(Movie movie)
         {
             //Check for null
             if (movie == null) throw new ArgumentNullException(nameof(movie));
-            //initiate context
-            using (var ctx = new MyContext())
+
+            try
             {
-                try
-                {
-                    //Add the movie and save changes
-                    ctx.Movies.Add(movie);
-                    ctx.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    //Exception throw in case of errors
-                    throw new Exception("Error adding movie", ex);
-                }
+                //Add the movie and save changes
+                _context.Movies.Add(movie);
+                _context.SaveChanges();
             }
+            catch (Exception ex)
+            {
+                //Exception throw in case of errors
+                throw new Exception("Error adding movie", ex);
+            }
+
             //return the id of the movie in case it needs to be used directly
             return movie.Id;
         }
@@ -39,21 +44,19 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Movies
         {
             //Check for null
             if (movie == null) throw new ArgumentNullException(nameof(movie));
-            //initiate context
-            using (var ctx = new MyContext())
+
+            try
             {
-                try
-                {
-                    //Update the movie and save changes
-                    ctx.Movies.Update(movie);
-                    ctx.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    //Exception throw in case of errors
-                    throw new Exception("Error updating movie", ex);
-                }
+                //Update the movie and save changes
+                _context.Movies.Update(movie);
+                _context.SaveChanges();
             }
+            catch (Exception ex)
+            {
+                //Exception throw in case of errors
+                throw new Exception("Error updating movie", ex);
+            }
+
             //return the id of the movie in case it needs to be used directly
             return movie.Id;
         }
@@ -63,21 +66,19 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Movies
         {
             //Check for null
             if (movie == null) throw new ArgumentNullException(nameof(movie));
-            //initiate context
-            using (var ctx = new MyContext())
+
+            try
             {
-                try
-                {
-                    //Remove the movie and save changes
-                    ctx.Movies.Remove(movie);
-                    ctx.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    //Exception throw in case of errors
-                    throw new Exception("Error removing movie", ex);
-                }
+                //Remove the movie and save changes
+                _context.Movies.Remove(movie);
+                _context.SaveChanges();
             }
+            catch (Exception ex)
+            {
+                //Exception throw in case of errors
+                throw new Exception("Error removing movie", ex);
+            }
+
             //return the id of the movie in case it needs to be used directly
             return movie.Id;
         }
@@ -85,10 +86,8 @@ namespace Syntra.FXTGroepsWerk2025.Logic.Movies
         //get a list of movies from the datalayer
         public List<Movie> GetMovies()
         {
-            using (var ctx = new MyContext())
-            {
-                return ctx.Movies.ToList();
-            }
+            var list = _context.Movies.ToList();
+            return list;
         }
     }
 }
