@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OWN.GroupProject2.Objects
 {
@@ -7,6 +8,7 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Gets or sets the duration of the movie in minutes.
         /// </summary>
+        [Column("PagesOrDuration")]
         public int Duration { get; set; }
 
         /// <summary>
