@@ -27,7 +27,8 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
                 Pages = book.Pages,
                 Year = book.Year,
                 IsCompleted = book.IsCompleted,
-                Id = book.Id
+                Id = book.Id,
+                GoodReadsId = book.GoodReadsId
          
             }).ToList();
 

@@ -19,4 +19,7 @@ public class Book : WatchListItem
     /// Gets or sets the author of the book.
     /// </summary>
     public virtual Author Author { get; set; }
+
+    [Column("IMDBId")]
+    public string GoodReadsId { get; set; } = string.Empty;
 }
