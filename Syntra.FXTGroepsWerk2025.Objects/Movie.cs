@@ -14,6 +14,7 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Gets or sets the year the movie was released.
         /// </summary>
+        [Column("Year")]
         public int Year { get; set; } // Year the movie was released
 
         /// <summary>
