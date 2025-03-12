@@ -25,6 +25,7 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Place for the IMDB id of the movie.
         /// </summary>
+        [Column("IMDBId")]
         public string IMDBId { get; set; } = string.Empty;
     }
 }
