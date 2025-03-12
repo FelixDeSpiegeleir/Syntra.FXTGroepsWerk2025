@@ -18,7 +18,6 @@
   <ItemGroup>
     <Folder Include="Views\Autor\" />
     <Folder Include="Views\Director\" />
-    <Folder Include="Views\Book\" />
     <Folder Include="Views\Watchlist\" />
     <Folder Include="Views\User\" />
   </ItemGroup>

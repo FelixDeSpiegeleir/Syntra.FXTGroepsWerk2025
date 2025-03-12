@@ -1,0 +1,266 @@
+﻿@model IEnumerable<BookModel>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+@*main books view list 
+-contains all books known to the database
+-able to sort on each property by clicking table head -- DONE -> needs to be moved to js file
+-clickable buttons to:
+ * add to Wishlist --TO DO
+ * View details
+- table rows for (in order):
+ * Title
+ * autor
+ * pagecount
+ * Year of release
+ * Genre
+ * Actions (btns)
+
+ *@
+<style>
+	table {
+		background-color: rgba(173, 216, 230, 0.25);
+		border: 3px solid black;
+		border-radius: 20px;
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0;
+	}
+
+	th {
+		background-color: blue;
+		border: 3px solid black;
+		padding: 10px;
+	}
+
+	td {
+		border: 1px solid lightgrey;
+		padding: 10px;
+	}
+
+		/* First and Second Columns */
+		td:nth-child(1), td:nth-child(2), th:nth-child(1), th:nth-child(2) {
+			width: auto;
+			padding-right: 15px;
+		}
+
+		/* Third Column (Title) takes the remaining space */
+		td:nth-child(3), th:nth-child(3) {
+			width: 100%;
+		}
+
+		/* Last Column (Actions) fits the buttons */
+		td:nth-child(5), th:nth-child(5) {
+			width: auto;
+			text-align: center;
+		}
+
+	.wishlist-btn {
+		background-color: #28a745;
+		color: white;
+		border: none;
+		padding: 8px 12px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-weight: bold;
+	}
+
+		.wishlist-btn:hover {
+			background-color: #218838;
+		}
+
+	/* IMDB Button Styling */
+	.imdb-btn {
+		display: inline-block;
+		margin-left: 10px;
+	}
+
+	.imdb-logo {
+		width: 40px; /* Adjust size as needed */
+		height: auto;
+		border-radius: 5px;
+		transition: transform 0.2s;
+	}
+
+		.imdb-logo:hover {
+			transform: scale(1.1);
+		}
+
+</style>
+<h2 class="text-center">📕ALL BOOKS📕</h2>
+
+<p>
+	<a asp-action="Create">BOOK NOT IN LIST? CLICK HERE TO ADD IT!</a>
+</p>
+
+<p>
+	<input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for Books..">
+</p>
+
+<table class="table" id="booksTable">
+	<thead>
+		<tr>
+			<th onclick="sortTable(0)">
+				@Html.DisplayNameFor(model => model.Pages)
+			</th>
+			<th onclick="sortTable(1)">
+				@Html.DisplayNameFor(model => model.Year)
+			</th>
+			<th onclick="sortTable(2)">
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th onclick="sortTable(3)">
+				@Html.DisplayNameFor(model => model.Author)
+			</th>
+			<th onclick="sortTable(4)">
+				@Html.DisplayNameFor(model => model.Genre)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Pages) Pages
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Year)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Author)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Genre)
+				</td>
+				<td>
+					<button class="wishlist-btn" onclick="addToWishlist('@item.Id')">Add to Wishlist</button>
+					*/add butn here*/
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@section Scripts {
+	<script>
+		// Function to sort the table based on the column index
+		function sortTable(columnIndex) {
+										var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0,xpag,ypag;
+										table = document.getElementById("booksTable"); // Get the table element
+										switching = true; // Set the switching flag to true
+										dir = "asc"; // Set the sorting direction to ascending
+										// Loop until no switching is needed
+
+										while (switching)
+										{
+											switching = false; // Start by saying no switching is done
+											rows = table.rows; // Get all the rows in the table
+											// Loop through all table rows (except the first, which contains table headers)
+											for (i = 1; i < (rows.length - 1); i++)
+											{
+												shouldSwitch = false; // Start by saying there should be no switching
+												x = rows[i].getElementsByTagName("TD")[columnIndex]; // Get the current element
+												y = rows[i + 1].getElementsByTagName("TD")[columnIndex]; // Get the next element
+												if (columnIndex === 0)// column 0 = duration
+												{
+													//remove all non-digit charackters
+													xpag = parseInt(x.innerHTML.replace(/\D/g, ''));
+													ypag = parseInt(y.innerHTML.replace(/\D/g, ''));
+													//sort
+													if (dir == "asc")
+													{
+													if (xpag > ypag )
+													{
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												} else if (dir == "desc")
+												{
+													if (xpag < ypag) {
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												}
+												}
+												else
+												{
+												// Check if the two rows should switch place, based on the direction, asc or desc
+												if (dir == "asc")
+												{
+													if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												} else if (dir == "desc")
+												{
+													if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												}
+												}
+											}
+											if (shouldSwitch)
+											{
+												// If a switch has been marked, make the switch and mark that a switch has been done
+												rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+												switching = true;
+												switchcount++; // Increase switch count by 1
+											}
+											else
+											{
+												// If no switching has been done and the direction is "asc", set the direction to "desc" and run the while loop again
+												if (switchcount == 0 && dir == "asc")
+												{
+													dir = "desc";
+													switching = true;
+												}
+											}
+										}
+									}
+		// Function to filter the table based on the search input
+		function filterTable() {
+										var input, filter, table, tr, td, i, j, txtValue;
+										input = document.getElementById("searchInput"); // Get the search input element
+										filter = input.value.toLowerCase(); // Get the search input value and convert to lowercase
+										table = document.getElementById("booksTable"); // Get the table element
+										tr = table.getElementsByTagName("tr"); // Get all the rows in the table
+										// Loop through all table rows (except the first, which contains table headers)
+										for (i = 1; i < tr.length; i++)
+										{
+											tr[i].style.display = "none"; // Hide the row initially
+											td = tr[i].getElementsByTagName("td"); // Get all the cells in the row
+											// Loop through all cells in the row
+											for (j = 0; j < td.length; j++)
+											{
+												if (td[j])
+												{
+													txtValue = td[j].textContent || td[j].innerText; // Get the cell text content
+													// If the cell text content matches the search input, display the row
+													if (txtValue.toLowerCase().indexOf(filter) > -1)
+													{
+														tr[i].style.display = "";
+														break;
+													}
+												}
+											}
+										}
+									}
+
+		// Function to add movie to wishlist
+		function addToWishlist(bookId) {
+											alert("You need to be logged in to add books to your wishlist.");
+											// Placeholder for future AJAX call or form submission to save the wishlist
+											console.log("Book ID to add:", movieId);
+										}
+
+
+	</script>
+}
