@@ -19,5 +19,7 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Models
         /// </summary>  
         public int Pages { get; set; }
 
+        public int GoodReadsId { get; set; }
+
     }
 }
