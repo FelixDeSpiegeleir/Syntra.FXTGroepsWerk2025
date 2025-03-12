@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OWN.GroupProject2.Objects.Movie>
+﻿@model IEnumerable<OWN.GroupProject2.Objects.MovieModel>
 
 @{
 	ViewData["Title"] = "Index";
@@ -146,40 +146,73 @@
 	<script>
 		// Function to sort the table based on the column index
 		function sortTable(columnIndex) {
-										var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+										var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0,xdur,ydur;
 										table = document.getElementById("moviesTable"); // Get the table element
 										switching = true; // Set the switching flag to true
 										dir = "asc"; // Set the sorting direction to ascending
 										// Loop until no switching is needed
-										while (switching) {
+
+										while (switching) 
+										{
 											switching = false; // Start by saying no switching is done
 											rows = table.rows; // Get all the rows in the table
 											// Loop through all table rows (except the first, which contains table headers)
-											for (i = 1; i < (rows.length - 1); i++) {
+											for (i = 1; i < (rows.length - 1); i++) 
+											{
 												shouldSwitch = false; // Start by saying there should be no switching
 												x = rows[i].getElementsByTagName("TD")[columnIndex]; // Get the current element
 												y = rows[i + 1].getElementsByTagName("TD")[columnIndex]; // Get the next element
+												if (columnIndex === 0)// column 0 = duration
+												{
+													//remove all non-digit charackters
+                                                    xdur = parseInt(x.innerHTML.replace(/\D/g, '')); 
+                                                    ydur = parseInt(y.innerHTML.replace(/\D/g, ''));
+													//sort
+													if (dir == "asc") 
+													{
+													if (xdur > ydur ) 
+													{
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												} else if (dir == "desc") 
+												{
+													if (xdur < ydur) {
+														shouldSwitch = true; // Mark as a switch and break the loop
+														break;
+													}
+												}
+												}
+												else
+												{
 												// Check if the two rows should switch place, based on the direction, asc or desc
-												if (dir == "asc") {
+												if (dir == "asc") 
+												{
 													if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
 														shouldSwitch = true; // Mark as a switch and break the loop
 														break;
 													}
-												} else if (dir == "desc") {
+												} else if (dir == "desc") 
+												{
 													if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
 														shouldSwitch = true; // Mark as a switch and break the loop
 														break;
 													}
 												}
+												}
 											}
-											if (shouldSwitch) {
+											if (shouldSwitch) 
+											{
 												// If a switch has been marked, make the switch and mark that a switch has been done
 												rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
 												switching = true;
 												switchcount++; // Increase switch count by 1
-											} else {
+											} 
+											else 
+											{
 												// If no switching has been done and the direction is "asc", set the direction to "desc" and run the while loop again
-												if (switchcount == 0 && dir == "asc") {
+												if (switchcount == 0 && dir == "asc") 
+												{
 													dir = "desc";
 													switching = true;
 												}
@@ -194,15 +227,19 @@
 										table = document.getElementById("moviesTable"); // Get the table element
 										tr = table.getElementsByTagName("tr"); // Get all the rows in the table
 										// Loop through all table rows (except the first, which contains table headers)
-										for (i = 1; i < tr.length; i++) {
+										for (i = 1; i < tr.length; i++) 
+										{
 											tr[i].style.display = "none"; // Hide the row initially
 											td = tr[i].getElementsByTagName("td"); // Get all the cells in the row
 											// Loop through all cells in the row
-											for (j = 0; j < td.length; j++) {
-												if (td[j]) {
+											for (j = 0; j < td.length; j++) 
+											{
+												if (td[j]) 
+												{
 													txtValue = td[j].textContent || td[j].innerText; // Get the cell text content
 													// If the cell text content matches the search input, display the row
-													if (txtValue.toLowerCase().indexOf(filter) > -1) {
+													if (txtValue.toLowerCase().indexOf(filter) > -1) 
+													{
 														tr[i].style.display = "";
 														break;
 													}
@@ -212,9 +249,11 @@
 									}
 		// Functiion to see if IMDBId is blank
 		function checkIMDBId(imdbId) {
-											if (!imdbId) {
+											if (!imdbId) 
+											{
 												alert("IMDB ID is not available for this movie.");
-											} else {
+											} else 
+											{
 												window.open("https://www.imdb.com/title/" + imdbId, "_blank", "noopener noreferrer");
 											}
 										}

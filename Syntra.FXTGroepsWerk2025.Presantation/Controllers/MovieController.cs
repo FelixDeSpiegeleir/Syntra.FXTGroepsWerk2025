@@ -11,14 +11,31 @@ namespace Syntra.FXTGroepsWerk2025.Presantation.Controllers
         //static List<MovieModel> TempMovies = MovieModel.GetTempMovies();
         static IMovieService MovieService { get; set; }
         static List<Movie> MovieList { get; set; }
+        static List<MovieModel> ModelList { get; set; }
 
         // GET: MovieController
-        public IActionResult Index([FromServices]IMovieService serv)
+        public IActionResult Index([FromServices] IMovieService serv)
         {
             // for actual data
             MovieService = serv;
+
             MovieList = serv.GetMovies();
-            return View(MovieList);
+
+            ModelList = MovieList.Select(movie => new MovieModel
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                IsCompleted = movie.IsCompleted,
+                Genre = movie.Genre,
+                CustomGenre = movie.CustomGenre,
+                Duration = movie.Duration,
+                Year = movie.Year,
+                Director = movie.Director,
+                DirectorId = movie.Director.Id,
+                IMDBId = movie.IMDBId
+            }).ToList();
+
+            return View(ModelList);
 
             //// for testing
             //return View(TempMovies);
