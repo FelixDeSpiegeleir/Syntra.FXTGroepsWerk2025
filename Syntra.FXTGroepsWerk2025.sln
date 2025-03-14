@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Text Files", "Text Files", "{80BCE6AA-F68F-4199-B90B-BFE4CF76FE69}"
 	ProjectSection(SolutionItems) = preProject
-		Idea List.txt = Idea List.txt
+		Syntra.FXTGroepsWerk2025.DataLayer\DateForDatabase.sql = Syntra.FXTGroepsWerk2025.DataLayer\DateForDatabase.sql
+		Syntra.FXTGroepsWerk2025.DataLayer\SQL query for tables.sql = Syntra.FXTGroepsWerk2025.DataLayer\SQL query for tables.sql
+		SQL to delete all duplicates in database.sql = SQL to delete all duplicates in database.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{81D3847F-9558-4D2F-B4B7-345CA63F1546}"

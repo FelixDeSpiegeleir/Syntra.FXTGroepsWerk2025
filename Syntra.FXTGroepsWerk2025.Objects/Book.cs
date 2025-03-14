@@ -20,6 +20,6 @@ public class Book : WatchListItem
     /// </summary>
     public virtual Author Author { get; set; }
 
-    [Column("IMDBId")]
+    [Column("GoodReadsId")]
     public string GoodReadsId { get; set; } = string.Empty;
 }
