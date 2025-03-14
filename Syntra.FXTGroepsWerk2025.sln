@@ -13,8 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Text Files", "Text Files", "{80BCE6AA-F68F-4199-B90B-BFE4CF76FE69}"
 	ProjectSection(SolutionItems) = preProject
-		Syntra.FXTGroepsWerk2025.DataLayer\DateForDatabase.sql = Syntra.FXTGroepsWerk2025.DataLayer\DateForDatabase.sql
-		Syntra.FXTGroepsWerk2025.DataLayer\SQL query for tables.sql = Syntra.FXTGroepsWerk2025.DataLayer\SQL query for tables.sql
+		DataForDataBase.sql = DataForDataBase.sql
+		SQL Query for DataBase layout creation.sql = SQL Query for DataBase layout creation.sql
 		SQL to delete all duplicates in database.sql = SQL to delete all duplicates in database.sql
 	EndProjectSection
 EndProject

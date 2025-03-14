@@ -1,0 +1,81 @@
+-- ? Ensure database exists before proceeding
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'FXTWishlist')
+    CREATE DATABASE FXTWishlist;
+GO
+
+USE FXTWishlist;
+
+-- ? Create tables if they do not exist
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Authors')
+BEGIN
+    CREATE TABLE Authors (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Name NVARCHAR(255) NOT NULL
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Directors')
+BEGIN
+    CREATE TABLE Directors (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Name NVARCHAR(255) NOT NULL
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'WatchLists')
+BEGIN
+    CREATE TABLE WatchLists (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Name NVARCHAR(255) NOT NULL,
+        CreatedDate DATETIME NOT NULL DEFAULT GETDATE()
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'WatchListItems')
+BEGIN
+    CREATE TABLE WatchListItems (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        WatchListId INT NOT NULL,
+        Title NVARCHAR(255) NOT NULL,
+        IsCompleted BIT NOT NULL DEFAULT 0,
+        ItemType NVARCHAR(50) NOT NULL,
+        PagesOrDuration INT NULL,
+        AuthorId INT NULL,
+        DirectorId INT NULL,
+        CONSTRAINT FK_WatchListItems_WatchList FOREIGN KEY (WatchListId) REFERENCES WatchLists(Id) ON DELETE CASCADE,
+        CONSTRAINT FK_WatchListItems_Author FOREIGN KEY (AuthorId) REFERENCES Authors(Id) ON DELETE SET NULL,
+        CONSTRAINT FK_WatchListItems_Director FOREIGN KEY (DirectorId) REFERENCES Directors(Id) ON DELETE SET NULL
+    );
+END
+
+-- ? Ensure columns exist
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Genre')
+    ALTER TABLE WatchListItems ADD Genre NVARCHAR(255) NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Year')
+    ALTER TABLE WatchListItems ADD Year INT NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'IMDBId')
+    ALTER TABLE WatchListItems ADD IMDBId NVARCHAR(20) NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'GoodReadsId')
+    ALTER TABLE WatchListItems ADD GoodReadsId NVARCHAR(20) NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'CustomGenre')
+    ALTER TABLE WatchListItems ADD CustomGenre NVARCHAR(255) NULL;
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'WatchListItems' AND COLUMN_NAME = 'Duration')
+    ALTER TABLE WatchListItems ADD Duration INT NULL;
+
+-- ? Update Views to include new columns
+GO
+CREATE OR ALTER VIEW Books AS
+SELECT Id, WatchListId, Title, PagesOrDuration AS Pages, AuthorId, IsCompleted, Genre, Year, GoodReadsId
+FROM WatchListItems
+WHERE ItemType = 'Book';
+
+GO
+CREATE OR ALTER VIEW Movies AS
+SELECT Id, WatchListId, Title, PagesOrDuration AS Duration, DirectorId, IsCompleted, Genre, Year, IMDBId
+FROM WatchListItems
+WHERE ItemType = 'Movie';
