@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OWN.GroupProject2.Objects;
 
 namespace OWN.GroupProject2.DataLayer
@@ -6,7 +7,7 @@ namespace OWN.GroupProject2.DataLayer
     /// <summary>
     /// Represents the database context for the application, managing the entity sets and their configurations.
     /// </summary>
-    public class MyContext : DbContext
+    public class MyContext : IdentityDbContext<User>
     {
         /// <summary>
         /// Gets or sets the DbSet for WatchLists.
