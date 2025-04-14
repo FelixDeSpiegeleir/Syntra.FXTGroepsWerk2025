@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OWN.GroupProject2.Objects;
+using Syntra.FXTGroepsWerk2025.Objects;
 
 namespace OWN.GroupProject2.DataLayer
 {
