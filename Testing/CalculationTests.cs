@@ -13,8 +13,9 @@ namespace Testing;
 public class CalculationTests
 {
     private readonly List<Movie> _movieList;
+    private readonly List<Book> _bookList;
 
-    // Arrange: Initialize a predefined list of movies to be used for testing
+    // Arrange: Initialize a predefined list of movies and books to be used for testing
     public CalculationTests()
     {
         _movieList = new List<Movie>
@@ -51,6 +52,39 @@ public class CalculationTests
                 Director = new Director { Name = "Christopher Nolan" },
                 IMDBId = "tt0468569",
                 IsCompleted = true // Watched
+            }
+        };
+        _bookList = new List<Book>
+        {
+            new Book
+            {
+                Id = 1,
+                Title = "To Kill a Mockingbird",
+                Pages = 280,
+                Year = 1960,
+                Genre = GenreType.Philosophical,
+                Author = new Author { Name = "Harper Lee" },
+                IsCompleted = true
+            },
+            new Book
+            {
+                Id = 2,
+                Title = "1984",
+                Pages = 328,
+                Year = 1949,
+                Genre = GenreType.Thriller,
+                Author = new Author { Name = "George Orwell" },
+                IsCompleted = false
+            },
+            new Book
+            {
+                Id = 3,
+                Title = "The Hobbit",
+                Pages = 310,
+                Year = 1937,
+                Genre = GenreType.Fantasy,
+                Author = new Author { Name = "J.R.R. Tolkien" },
+                IsCompleted = true
             }
         };
     }
@@ -90,4 +124,41 @@ public class CalculationTests
 
         Assert.True(expected == result);
     }
+
+    // Test: Verify that the method correctly counts the number of read books
+    [Fact]
+    public void TotalBooksReadTest()
+    {
+        var bookCalculations = new BookCalculations();
+
+        long expected = 2; // Two books are marked as completed
+        long result = bookCalculations.TotalBooksRead(_bookList);
+
+        Assert.True(expected == result);
+    }
+
+    // Test: Verify that the total pages readis calculated correctly
+    [Fact]
+    public void TotalPagesRead()
+    {
+        var bookCalculations = new BookCalculations();
+
+        long expected = 590; // 590 pages read / 2 books
+        long result = bookCalculations.TotalPagesRead(_bookList);
+
+        Assert.True(expected == result);
+    }
+
+    // Test: Verify that the average pages read per book is correctly calculated
+    [Fact]
+    public void AveragePagesPerBookTest()
+    {
+        var bookCalculations = new BookCalculations();
+
+        double expected = 295; // 590 pages read for 2 books = 295 average
+        double result = bookCalculations.AveragePages(_bookList);
+
+        Assert.True(expected == result);
+    }
+
 }
