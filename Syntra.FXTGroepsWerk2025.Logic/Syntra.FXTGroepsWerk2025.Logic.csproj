@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Syntra.FXTGroepsWerk2025.DataLayer\Syntra.FXTGroepsWerk2025.DataLayer.csproj" />
     <ProjectReference Include="..\Syntra.FXTGroepsWerk2025.Objects\Syntra.FXTGroepsWerk2025.Objects.csproj" />
   </ItemGroup>
