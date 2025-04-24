@@ -9,14 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Objects", "Syntra.FXTGroepsWerk2025.Objects\Syntra.FXTGroepsWerk2025.Objects.csproj", "{8AC19D51-7A74-4A10-BC12-24F43E965946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Presantation", "Syntra.FXTGroepsWerk2025.Presantation\Syntra.FXTGroepsWerk2025.Presantation.csproj", "{E9F0F82A-4541-4EA1-81FF-50A496CF6D4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.Presentation", "Syntra.FXTGroepsWerk2025.Presantation\Syntra.FXTGroepsWerk2025.Presentation.csproj", "{E9F0F82A-4541-4EA1-81FF-50A496CF6D4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Text Files", "Text Files", "{80BCE6AA-F68F-4199-B90B-BFE4CF76FE69}"
-	ProjectSection(SolutionItems) = preProject
-		DataForDataBase.sql = DataForDataBase.sql
-		SQL Query for DataBase layout creation.sql = SQL Query for DataBase layout creation.sql
-		SQL to delete all duplicates in database.sql = SQL to delete all duplicates in database.sql
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{81D3847F-9558-4D2F-B4B7-345CA63F1546}"
 EndProject
