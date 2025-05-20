@@ -1,90 +1,129 @@
-﻿using Castle.Core.Resource;
-using OWN.GroupProject2.DataLayer;
+﻿using OWN.GroupProject2.DataLayer;
 using OWN.GroupProject2.Objects;
+using Syntra.FXTGroepsWerk2025.Logic.Calculations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Syntra.FXTGroepsWerk2025.Logic.Books
 {
+    /// <summary>
+    /// Provides methods for managing and analyzing books.
+    /// </summary>
     public class BookService : IBookService
     {
         private readonly MyContext _context;
-        public BookService(MyContext context)
+        private readonly BookCalculations _calculations;
+
+        public BookService(MyContext context, BookCalculations calculations)
         {
             _context = context;
+            _calculations = calculations;
         }
-        //method to add a book to the database
+
+        /// <summary>
+        /// Adds a book to the database.
+        /// </summary>
+        /// <param name="book">The book to add.</param>
+        /// <returns>The ID of the added book.</returns>
         public int AddBook(Book book)
         {
-            //Check for null
             if (book == null) throw new ArgumentNullException(nameof(book));
 
             try
             {
-                //Add the book and save changes
                 _context.Books.Add(book);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
-                //exception throw in case of errors
                 throw new Exception("Error adding book", ex);
             }
 
-            //return the id of the book in case it needs to be used directly
             return book.Id;
         }
 
-        //method to update an existing book in the database
+        /// <summary>
+        /// Updates an existing book in the database.
+        /// </summary>
+        /// <param name="book">The book to update.</param>
+        /// <returns>The ID of the updated book.</returns>
         public int UpdateBook(Book book)
         {
-            //Check for null
             if (book == null) throw new ArgumentNullException(nameof(book));
 
             try
             {
-                //Update the existing book and save changes
                 _context.Books.Update(book);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
-                //exception throw in case of errors
                 throw new Exception("Error updating book", ex);
             }
 
-            //return the id of the book in case it needs to be used directly
             return book.Id;
         }
 
-        //method to remove a book from the database
+        /// <summary>
+        /// Removes a book from the database.
+        /// </summary>
+        /// <param name="book">The book to remove.</param>
+        /// <returns>The ID of the removed book.</returns>
         public int RemoveBook(Book book)
         {
-            //Check for null
             if (book == null) throw new ArgumentNullException(nameof(book));
-            //initiate the context
 
             try
             {
-                //remove the book from the database and save changes
                 _context.Books.Remove(book);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
-                //exception throw in case of errors
                 throw new Exception("Error deleting book", ex);
             }
 
-            //return the id of the book in case it needs to be used directly
-            //book is removed, so id is probably not necessary.
             return book.Id;
         }
 
-        //get a list of books from the datalayer
+        /// <summary>
+        /// Retrieves a list of all books from the database.
+        /// </summary>
+        /// <returns>A list of books.</returns>
         public List<Book> GetBooks()
         {
-            var list = _context.Books.ToList();
-            return list;
+            return _context.Books.ToList();
+        }
 
+        /// <summary>
+        /// Calculates the total number of pages read from the given list of books.
+        /// </summary>
+        /// <param name="books">A list of books.</param>
+        /// <returns>Total pages read.</returns>
+        public long TotalPagesReadBooks(List<Book> books)
+        {
+            return _calculations.TotalPagesRead(books);
+        }
+
+        /// <summary>
+        /// Calculates the average number of pages read per completed book.
+        /// </summary>
+        /// <param name="books">A list of books.</param>
+        /// <returns>Average pages read per book.</returns>
+        public double AveragePagesReadBooks(List<Book> books)
+        {
+            return _calculations.AveragePages(books);
+        }
+
+        /// <summary>
+        /// Calculates the total number of completed books.
+        /// </summary>
+        /// <param name="books">A list of books.</param>
+        /// <returns>Total completed books.</returns>
+        public long TotalReadBooks(List<Book> books)
+        {
+            return _calculations.TotalBooksRead(books);
         }
     }
 }

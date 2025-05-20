@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OWN.GroupProject2.DataLayer;
 using OWN.GroupProject2.Objects;
+using Syntra.FXTGroepsWerk2025.Logic.Books;
 using Syntra.FXTGroepsWerk2025.Logic.Calculations;
 using Syntra.FXTGroepsWerk2025.Logic.Movies;
 using Assert = Xunit.Assert;
@@ -14,6 +15,11 @@ public class CalculationTests
 {
     private readonly List<Movie> _movieList;
     private readonly List<Book> _bookList;
+    private readonly MyContext _context;
+    private readonly MovieCalculations _movieCalculations;
+    private readonly BookCalculations _bookCalculations;
+    private readonly MovieService _movieService;
+    private readonly BookService _bookService;
 
     // Arrange: Initialize a predefined list of movies and books to be used for testing
     public CalculationTests()
@@ -87,16 +93,24 @@ public class CalculationTests
                 IsCompleted = true
             }
         };
+
+        var options = new DbContextOptionsBuilder<MyContext>()
+            .UseInMemoryDatabase(databaseName: "TestDb")
+            .Options;
+
+        _context = new MyContext(options);
+        _movieCalculations = new MovieCalculations();
+        _bookCalculations = new BookCalculations();
+        _movieService = new MovieService(_context, _movieCalculations);
+        _bookService = new BookService(_context, _bookCalculations);
     }
 
     // Test: Verify that the method correctly counts the number of watched movies
     [Fact]
     public void TotalMoviesWatchedTest()
     {
-        var movieCalculation = new MovieCalculations();
-
         long expected = 2; // Two movies are marked as completed
-        long result = movieCalculation.TotalMoviesWatched(_movieList);
+        long result = _movieService.TotalWatchedMovies(_movieList);
 
         Assert.True(result == expected);
     }
@@ -105,10 +119,8 @@ public class CalculationTests
     [Fact]
     public void TotalMinutesWatchedTest()
     {
-        var movieCalculation = new MovieCalculations();
-
         long expected = 328; // The sum of durations of watched movies (175 + 153)
-        long result = movieCalculation.TotalMinutesWatched(_movieList);
+        long result = _movieService.TotalMinutesWatchedMovies(_movieList);
 
         Assert.True(expected == result);
     }
@@ -117,10 +129,8 @@ public class CalculationTests
     [Fact]
     public void AverageMinutesWatchedTest()
     {
-        var movieCalculation = new MovieCalculations();
-
         double expected = 164; // 328 minutes watched / 2 movies
-        double result = movieCalculation.AverageMinutesWatched(_movieList);
+        double result = _movieService.AverageMinutesWatchedMovies(_movieList);
 
         Assert.True(expected == result);
     }
@@ -129,10 +139,8 @@ public class CalculationTests
     [Fact]
     public void TotalBooksReadTest()
     {
-        var bookCalculations = new BookCalculations();
-
         long expected = 2; // Two books are marked as completed
-        long result = bookCalculations.TotalBooksRead(_bookList);
+        long result = _bookService.TotalReadBooks(_bookList);
 
         Assert.True(expected == result);
     }
@@ -141,10 +149,8 @@ public class CalculationTests
     [Fact]
     public void TotalPagesRead()
     {
-        var bookCalculations = new BookCalculations();
-
         long expected = 590; // 590 pages read / 2 books
-        long result = bookCalculations.TotalPagesRead(_bookList);
+        long result = _bookService.TotalPagesReadBooks(_bookList);
 
         Assert.True(expected == result);
     }
@@ -153,10 +159,8 @@ public class CalculationTests
     [Fact]
     public void AveragePagesPerBookTest()
     {
-        var bookCalculations = new BookCalculations();
-
         double expected = 295; // 590 pages read for 2 books = 295 average
-        double result = bookCalculations.AveragePages(_bookList);
+        double result = _bookService.AveragePagesReadBooks(_bookList);
 
         Assert.True(expected == result);
     }

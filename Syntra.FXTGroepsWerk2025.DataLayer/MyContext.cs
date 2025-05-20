@@ -5,11 +5,19 @@ using Syntra.FXTGroepsWerk2025.Objects;
 
 namespace OWN.GroupProject2.DataLayer
 {
+
     /// <summary>
     /// Represents the database context for the application, managing the entity sets and their configurations.
     /// </summary>
     public class MyContext : IdentityDbContext<User>
     {
+        /// <summary>
+        /// Constructor for testing scenarios
+        /// </summary>
+        /// <param name="options"></param>
+        public MyContext(DbContextOptions<MyContext> options) : base(options)
+        {
+        }
         /// <summary>
         /// Gets or sets the DbSet for WatchLists.
         /// </summary>

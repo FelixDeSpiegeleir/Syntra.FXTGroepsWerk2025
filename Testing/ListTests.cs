@@ -1,31 +1,56 @@
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using OWN.GroupProject2.DataLayer;
 using OWN.GroupProject2.Objects;
 using Syntra.FXTGroepsWerk2025.Logic.Books;
+using Syntra.FXTGroepsWerk2025.Logic.Calculations;
 using Syntra.FXTGroepsWerk2025.Logic.Movies;
+using Xunit;
 
 namespace Testing
 {
     public class ListTests
     {
-        //Strange issue in testing with DI context, need to check later
+        private MyContext CreateInMemoryContext()
+        {
+            var options = new DbContextOptionsBuilder<MyContext>()
+                .UseInMemoryDatabase(databaseName: "TestDb") // Use unique DB name per test class if needed
+                .Options;
 
-        //private readonly MyContext _context;
-        //public UnitTest1(MyContext context)
-        //{
-        //        _context = context;
-        //}
+            var context = new MyContext(options);
+
+            // Seed sample data if necessary for tests
+            if (!context.Movies.Any())
+            {
+                context.Movies.AddRange(new List<Movie>
+                {
+                    new Movie { Id = 1, Title = "Inception", Duration = 148 },
+                    new Movie { Id = 2, Title = "The Godfather", Duration = 175 }
+                });
+                context.SaveChanges();
+            }
+
+            if (!context.Books.Any())
+            {
+                context.Books.AddRange(new List<Book>
+                {
+                    new Book { Id = 1, Title = "To Kill a Mockingbird", Pages = 280 },
+                    new Book { Id = 2, Title = "1984", Pages = 328 }
+                });
+                context.SaveChanges();
+            }
+
+            return context;
+        }
+
         [Fact]
         public void GetMovieListTest()
         {
-            // Arrange
-            var context = new MyContext(); //temporary new context without DI, check for fix later
-            var movieService = new MovieService(context); // Assuming MovieService is the service to be tested
+            using var context = CreateInMemoryContext();
+            var calculations = new MovieCalculations();
+            var movieService = new MovieService(context, calculations);
 
-            // Act
-            List<Movie> result = movieService.GetMovies();
+            var result = movieService.GetMovies();
 
-            // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
         }
@@ -33,17 +58,14 @@ namespace Testing
         [Fact]
         public void GetBookListTest()
         {
-            // Arrange
-            var context = new MyContext(); //temporary new context without DI, check for fix later
-            var bookService = new BookService(context); // Assuming BookService is the service to be tested
+            using var context = CreateInMemoryContext();
+            var calculations = new BookCalculations();
+            var bookService = new BookService(context, calculations);
 
-            // Act
-            List<Book> result = bookService.GetBooks();
+            var result = bookService.GetBooks();
 
-            // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
         }
-
     }
 }
