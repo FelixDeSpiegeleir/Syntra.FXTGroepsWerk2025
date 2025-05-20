@@ -7,50 +7,56 @@ using System.Threading.Tasks;
 
 namespace Syntra.FXTGroepsWerk2025.Logic.Calculations
 {
+    /// <summary>
+    /// Provides calculation methods related to books.
+    /// </summary>
     public class BookCalculations
     {
-        //method to calculate the total amount of pages of all the books that have been read
+        /// <summary>
+        /// Calculates the total number of pages of all completed books.
+        /// </summary>
+        /// <param name="booksList">A list of books.</param>
+        /// <returns>The total number of pages read.</returns>
         public long TotalPagesRead(List<Book> booksList)
         {
-            //Check for null
             if (booksList == null) throw new ArgumentNullException(nameof(booksList));
 
-            //Sum up all the 'Pages' properties of all the books in the list that have been read
             long totalPages = booksList
                 .Where(p => p.IsCompleted == true)
                 .Sum(p => p.Pages);
 
-            //return the value
             return totalPages;
         }
 
-        //method to calculate the average amount of pages per book of all books that have been read
+        /// <summary>
+        /// Calculates the average number of pages per completed book.
+        /// </summary>
+        /// <param name="booksList">A list of books.</param>
+        /// <returns>The average number of pages per completed book.</returns>
         public double AveragePages(List<Book> booksList)
         {
-            //Check for null
             if (booksList == null) throw new ArgumentNullException(nameof(booksList));
 
-            //Get all the books that have been read and check the average of the pagecount
             double averagePages = booksList
                 .Where(p => p.IsCompleted == true)
                 .Average(p => p.Pages);
 
-            //return the value
             return averagePages;
         }
 
-        //method to calculate the total amount of books that have been read
+        /// <summary>
+        /// Calculates the total number of completed books.
+        /// </summary>
+        /// <param name="booksList">A list of books.</param>
+        /// <returns>The total number of books read.</returns>
         public long TotalBooksRead(List<Book> booksList)
         {
-            //Check for null
             if (booksList == null) throw new ArgumentNullException(nameof(booksList));
 
-            //Count all the books in the list that have been read
             long totalBooks = booksList
                 .Where(p => p.IsCompleted == true)
                 .Count();
 
-            //return the value
             return totalBooks;
         }
     }
