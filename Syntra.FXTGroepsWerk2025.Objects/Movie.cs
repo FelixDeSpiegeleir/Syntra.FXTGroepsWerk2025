@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace OWN.GroupProject2.Objects
 {
@@ -20,6 +21,7 @@ namespace OWN.GroupProject2.Objects
         /// <summary>
         /// Gets or sets the director of the movie.
         /// </summary>
+        [JsonIgnore]
         public virtual Director Director { get; set; }
 
         /// <summary>
