@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Text Files", "Text Files", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{81D3847F-9558-4D2F-B4B7-345CA63F1546}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.API", "Syntra.FXTGroepsWerk2025.API\Syntra.FXTGroepsWerk2025.API.csproj", "{00698997-83C5-45E6-9022-58177D27E742}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,8 +43,15 @@ Global
 		{81D3847F-9558-4D2F-B4B7-345CA63F1546}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81D3847F-9558-4D2F-B4B7-345CA63F1546}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81D3847F-9558-4D2F-B4B7-345CA63F1546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00698997-83C5-45E6-9022-58177D27E742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00698997-83C5-45E6-9022-58177D27E742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00698997-83C5-45E6-9022-58177D27E742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00698997-83C5-45E6-9022-58177D27E742}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7643C543-8047-4B2B-B444-B52E18586B3B}
 	EndGlobalSection
 EndGlobal

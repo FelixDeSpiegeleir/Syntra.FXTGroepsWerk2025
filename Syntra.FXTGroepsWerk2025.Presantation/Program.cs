@@ -3,6 +3,7 @@ using Syntra.FXTGroepsWerk2025.Logic.Books;
 using Syntra.FXTGroepsWerk2025.Logic.Movies;
 using Syntra.FXTGroepsWerk2025.Objects;
 using Microsoft.AspNetCore.Identity;
+using Syntra.FXTGroepsWerk2025.Logic.Calculations;
 
 
 namespace Syntra.FXTGroepsWerk2025.Presantation
@@ -17,6 +18,8 @@ namespace Syntra.FXTGroepsWerk2025.Presantation
             builder.Services.AddControllersWithViews();
             builder.Services.AddTransient<IMovieService, MovieService>();
             builder.Services.AddTransient<IBookService, BookService>();
+            builder.Services.AddTransient<BookCalculations>();
+            builder.Services.AddTransient<MovieCalculations>();
             builder.Services.AddTransient<MyContext>();
 
             builder.Services.AddDbContext<MyContext>();

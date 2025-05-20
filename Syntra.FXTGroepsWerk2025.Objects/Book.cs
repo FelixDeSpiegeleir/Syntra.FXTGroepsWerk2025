@@ -1,5 +1,6 @@
 ﻿using OWN.GroupProject2.Objects;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 public class Book : WatchListItem
 {
@@ -18,6 +19,7 @@ public class Book : WatchListItem
     /// <summary>
     /// Gets or sets the author of the book.
     /// </summary>
+    [JsonIgnore]
     public virtual Author Author { get; set; }
 
     [Column("GoodReadsId")]
