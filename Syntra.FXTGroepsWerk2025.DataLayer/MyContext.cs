@@ -71,30 +71,33 @@ namespace OWN.GroupProject2.DataLayer
         /// <param name="optionsBuilder">The builder used to configure the context options.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseLazyLoadingProxies();
-
-            string machineName = Environment.MachineName;
-            string connectionString;
-
-            switch (machineName)
+            // Check for testing scenarios
+            if (!optionsBuilder.IsConfigured)
             {
-                case "TIMOTHY": // Timothy's PC
-                    connectionString = @"Data Source=.\LESCSHARP; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
-                    break;
-                case "MOBILEBLOCKN": // Xander's PC 
-                    connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False";
-                    break;
-                case "ACER-LAPTOP": // Felix's PC 
-                    connectionString = @"Data Source=.\SQLEXPRESS; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
-                    break;
-                default:
-                    throw new Exception("Unknown machine name. Please configure the connection string for this machine.");
-            }
+                optionsBuilder.UseLazyLoadingProxies();
 
-            optionsBuilder.UseSqlServer(connectionString);
+                string machineName = Environment.MachineName;
+                string connectionString;
+
+                switch (machineName)
+                {
+                    case "TIMOTHY":
+                        connectionString = @"Data Source=.\LESCSHARP; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
+                        break;
+                    case "MOBILEBLOCKN":
+                        connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=GroepsWerk2025;Integrated Security=True;Encrypt=False";
+                        break;
+                    case "ACER-LAPTOP":
+                        connectionString = @"Data Source=.\SQLEXPRESS; Initial Catalog=FXTWishlist; Integrated Security=True; Encrypt=False";
+                        break;
+                    default:
+                        throw new Exception("Unknown machine name. Please configure the connection string for this machine.");
+                }
+
+                optionsBuilder.UseSqlServer(connectionString);
+            }
         }
+
 
     }
 }
