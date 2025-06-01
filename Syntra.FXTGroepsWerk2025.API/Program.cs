@@ -1,5 +1,5 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OWN.GroupProject2.DataLayer;
 using Syntra.FXTGroepsWerk2025.API.Services;
@@ -10,16 +10,26 @@ using System.Text;
 
 namespace Syntra.FXTGroepsWerk2025.API
 {
+    /// <summary>
+    /// Entry point of the ASP.NET Core Web API application.
+    /// Configures services, middleware, and authentication.
+    /// </summary>
     public class Program
     {
         public static void Main(string[] args)
         {
+            // Create a new WebApplicationBuilder instance
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add JWT config
+            // -----------------------------
+            // JWT Authentication Setup
+            // -----------------------------
+
+            // Read JWT settings (secret key, issuer, audience, expiry) from configuration
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");
             var secretKey = jwtSettings["SecretKey"];
 
+            // Add JWT authentication service with configuration
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -39,21 +49,48 @@ namespace Syntra.FXTGroepsWerk2025.API
                 };
             });
 
+            // Add basic authorization service
             builder.Services.AddAuthorization();
 
-            // Add services to the container.
+            // -----------------------------
+            // Register Application Services
+            // -----------------------------
+
+            // JWT Token generator service (singleton: one shared instance)
             builder.Services.AddSingleton<JwtTokenService>();
-            builder.Services.AddScoped<IMovieService,  MovieService>();
+
+            // Business logic services (scoped: one per request)
+            builder.Services.AddScoped<IMovieService, MovieService>();
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<BookCalculations>();
             builder.Services.AddScoped<MovieCalculations>();
+
+            // Entity Framework DB context (scoped by default)
             builder.Services.AddDbContext<MyContext>();
 
-            builder.Services.AddControllers();
+            // Add controller for model validation
+            builder.Services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        return new BadRequestObjectResult(context.ModelState);
+                    };
+                });
 
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+            // -----------------------------
+            // Swagger/OpenAPI Configuration
+            // -----------------------------
+
+            // Enables OpenAPI (Swagger) for documenting and testing APIs
             builder.Services.AddOpenApi();
 
+            // -----------------------------
+            // CORS Policy
+            // -----------------------------
+
+            // Allow any origin, header, and method (for development or public APIs)
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
@@ -62,24 +99,32 @@ namespace Syntra.FXTGroepsWerk2025.API
                 });
             });
 
+            // -----------------------------
+            // Build and Configure the App
+            // -----------------------------
+
             var app = builder.Build();
 
+            // Apply CORS policy globally
             app.UseCors("AllowAll");
 
-            // Configure the HTTP request pipeline.
+            // Use Swagger/OpenAPI only in development
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
             }
 
+            // Enforce HTTPS redirection
             app.UseHttpsRedirection();
 
+            // Enable authentication and authorization middleware
             app.UseAuthentication();
             app.UseAuthorization();
 
-
+            // Map controller endpoints (API routes)
             app.MapControllers();
 
+            // Start the web application
             app.Run();
         }
     }
