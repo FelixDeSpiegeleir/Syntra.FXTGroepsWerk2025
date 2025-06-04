@@ -10,11 +10,17 @@ DOEL VAN HET GROEPSWERK:
 TAAKVERDELING:
  - Timothy
    - UI
+   - Security
+     
  - Xander
    - DataLayer & Database
    - Objects
+   - PowerPoint/Presentatie
+     
  - Felix
    - Logic
+   - API
+   - Security
   
 INFRASTRUCTUUR
  - Visual Studio
@@ -22,7 +28,6 @@ INFRASTRUCTUUR
  - Web applicatie
 
 NOG TE DOEN
- - API
- - Security
- - Web application UI
- - PowerPoint
+ 
+ 
+ 
