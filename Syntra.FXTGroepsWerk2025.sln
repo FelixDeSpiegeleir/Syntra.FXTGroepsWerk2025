@@ -27,6 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 		..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-GroepsWerk-2025-Powerpoint.pptx = ..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-GroepsWerk-2025-Powerpoint.pptx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database Diagram", "Database Diagram", "{A948ACED-690D-4910-8A07-6BD25A4DF516}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Downloads\Database Diagram groepswerk2025.jpg = ..\..\..\..\Downloads\Database Diagram groepswerk2025.jpg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
