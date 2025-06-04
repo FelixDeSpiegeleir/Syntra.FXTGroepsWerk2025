@@ -20,6 +20,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntra.FXTGroepsWerk2025.API", "Syntra.FXTGroepsWerk2025.API\Syntra.FXTGroepsWerk2025.API.csproj", "{00698997-83C5-45E6-9022-58177D27E742}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-2025-Presentation.pptx = ..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-2025-Presentation.pptx
+		..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-GroepsWerk-2025-PowerPoint Pdf.pdf = ..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-GroepsWerk-2025-PowerPoint Pdf.pdf
+		..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-GroepsWerk-2025-Powerpoint.pptx = ..\..\..\..\Downloads\groepswerk presentatie\Syntra-FXT-GroepsWerk-2025-Powerpoint.pptx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
